@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>分页 - 光年(Light Year Admin)后台管理系统模板</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
+<meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+<meta name="author" content="yinqi">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/materialdesignicons.min.css" rel="stylesheet">
+<link href="css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+<div class="container-fluid p-t-15">
+  
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><h4>表格</h4></div>
+        <div class="card-body">
+          
+          <h5>基本实例</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>书籍名称</th>
+                <th>作者</th>
+                <th>分类</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>庄子</td>
+                <td>庄子</td>
+                <td>古文典籍</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>道德经</td>
+                <td>老子</td>
+                <td>古文典籍</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>能面杀人事件</td>
+                <td>高木彬光</td>
+                <td>悬疑小说</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h5>条纹状表格 <code>.table-striped</code></h5>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>书籍名称</th>
+                <th>作者</th>
+                <th>分类</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>阴翳礼赞</td>
+                <td>谷崎润一郎</td>
+                <td>散文随笔</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>千门公子</td>
+                <td>方白羽</td>
+                <td>武侠小说</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>陈二狗的妖孽人生</td>
+                <td>烽火戏诸侯</td>
+                <td>都市小说</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h5>带边框的表格 <code>.table-bordered</code></h5>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>书籍名称</th>
+                <th>作者</th>
+                <th>分类</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>理智与情感</td>
+                <td>简·奥斯汀</td>
+                <td>国外名著</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>浪子神鹰</td>
+                <td>陈青云</td>
+                <td>武侠小说</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>风中之路</td>
+                <td>川端康成</td>
+                <td>当代小说</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h5>鼠标悬停 <code>.table-hover</code></h5>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>书籍名称</th>
+                <th>作者</th>
+                <th>分类</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>康复的家庭</td>
+                <td>大江健三郎</td>
+                <td>散文随笔</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>名侦探的规条</td>
+                <td>东野圭吾</td>
+                <td>悬疑小说</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>天才相师</td>
+                <td>打眼</td>
+                <td>都市小说</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h5>紧缩表格 <code>.table-condensed</code></h5>
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>书籍名称</th>
+                <th>作者</th>
+                <th>分类</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>简单爱</td>
+                <td>董晓磊</td>
+                <td>青春校园</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>主教杀人事件</td>
+                <td>范·达恩</td>
+                <td>悬疑小说</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>天神下凡</td>
+                <td>烽火戏诸侯</td>
+                <td>玄幻仙侠</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h5>状态类</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>书籍名称</th>
+                <th>作者</th>
+                <th>分类</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="active">
+                <th scope="row">1</th>
+                <td>北京悠悠馆</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>诸葛孔明</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr class="success">
+                <th scope="row">3</th>
+                <td>甲午战争</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td>神兽之爪</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr class="info">
+                <th scope="row">5</th>
+                <td>帝国的软肋：大汉王朝四百年</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr>
+                <th scope="row">6</th>
+                <td>春秋战国：戈马钟鼓杀与盟</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr class="warning">
+                <th scope="row">7</th>
+                <td>龙凤之国</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr>
+                <th scope="row">8</th>
+                <td>大唐帝国之隋乱唐盛三百年</td>
+                <td>陈舜臣</td>
+                <td>历史小说</td>
+              </tr>
+              <tr class="danger">
+                <th scope="row">9</th>
+                <td>一个陌生女人的来信</td>
+                <td>斯蒂芬·茨威格</td>
+                <td>国外名著</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h5>响应式表格</h5>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>书籍名</th>
+                  <th>作者</th>
+                  <th>国籍</th>
+                  <th>分类</th>
+                  <th>库存</th>
+                  <th>价格</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>钦差大臣</td>
+                  <td>果戈理</td>
+                  <td>俄国</td>
+                  <td>国外名族</td>
+                  <td>125</td>
+                  <td>36.00</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>西厢记</td>
+                  <td>王实甫</td>
+                  <td>中国</td>
+                  <td>古文典籍</td>
+                  <td>26</td>
+                  <td>18.00</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>儒林外史</td>
+                  <td>吴敬梓</td>
+                  <td>中国</td>
+                  <td>古文典籍</td>
+                  <td>39</td>
+                  <td>22.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>书籍名</th>
+                  <th>作者</th>
+                  <th>国籍</th>
+                  <th>分类</th>
+                  <th>库存</th>
+                  <th>价格</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>钦差大臣</td>
+                  <td>果戈理</td>
+                  <td>俄国</td>
+                  <td>国外名族</td>
+                  <td>125</td>
+                  <td>36.00</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>西厢记</td>
+                  <td>王实甫</td>
+                  <td>中国</td>
+                  <td>古文典籍</td>
+                  <td>26</td>
+                  <td>18.00</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>儒林外史</td>
+                  <td>吴敬梓</td>
+                  <td>中国</td>
+                  <td>古文典籍</td>
+                  <td>39</td>
+                  <td>22.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+</body>
+</html>

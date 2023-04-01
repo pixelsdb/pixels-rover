@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>通知消息 - 光年(Light Year Admin)后台管理系统模板</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
+<meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+<meta name="author" content="yinqi">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/materialdesignicons.min.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet">
+<link href="css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+<div class="container-fluid p-t-15">
+  
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><h4>通知消息</h4></div>
+        <div class="card-body">
+          
+          <button type="button" class="btn btn-primary" id="example-success-notify">确认修改</button>
+          <button type="button" class="btn btn-dark" id="example-error-notify">修改失败</button>
+          
+          <p class="m-t-10">页面加载等待效果</p>
+          <pre><code>lightyear.loading('show');  // 显示
+lightyear.loading('hide');  // 隐藏</code></pre>
+          
+          <p class="m-t-10">消息提示</p>
+          <p>消息提示采用的是bootstrap-notify插件，这里包装了一下(包装方法来自DolphinPHP)，您也可以直接使用bootstrap-notify。</p>
+          <table class="table table-bordered">
+            <tr>
+              <th>参数</th>
+              <th>说明</th>
+            </tr>
+            <tr>
+              <td>$msg</td>
+              <td>提示信息</td>
+            </tr>
+            <tr>
+              <td>$type</td>
+              <td>提示类型：'info', 'success', 'warning', 'danger'</td>
+            </tr>
+            <tr>
+              <td>$delay</td>
+              <td>定义消息提示消失的时间，毫秒数</td>
+            </tr>
+            <tr>
+              <td>$icon</td>
+              <td>图标，例如：'mdi-emoticon-happy'，具体参考<a href="lyear_ui_icons.html">图标</a> </td>
+            </tr>
+            <tr>
+              <td>$from</td>
+              <td>'top' 或 'bottom'</td>
+            </tr>
+            <tr>
+              <td>$align</td>
+              <td>'left', 'right', 'center'</td>
+            </tr>
+          </table>
+          <pre><code>lightyear.notify('修改成功，页面即将自动跳转~', 'success', 5000, 'mdi mdi-emoticon-happy', 'top', 'center');</code></pre>
+          
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<!--消息提示-->
+<script src="js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="js/lightyear.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+
+<script type="text/javascript">
+// 消息提示示例
+$('#example-success-notify').on('click', function(){
+    lightyear.loading('show');
+    // 假设ajax提交操作
+    setTimeout(function() {
+        lightyear.loading('hide');
+        lightyear.notify('修改成功，页面即将自动跳转~', 'success', 3000);
+    }, 1e3)
+});
+$('#example-error-notify').on('click', function(){
+    lightyear.loading('show');
+    // 假设ajax提交操作
+    setTimeout(function() {
+        lightyear.loading('hide');
+        lightyear.notify('服务器错误，请稍后再试~', 'danger', 100);
+    }, 1e3)
+});
+</script>
+</body>
+</html>

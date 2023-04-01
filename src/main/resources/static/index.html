@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>首页 - 光年(Light Year Admin)后台管理系统模板</title>
+<title>Pixels Workbench</title>
 <link rel="icon" href="favicon.ico" type="image/ico">
-<meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
-<meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
-<meta name="author" content="yinqi">
+<meta name="keywords" content="Pixels Workbench">
+<meta name="description" content="The workbench of Pixels, a cloud-native data lake. See pixelsdb.io">
+<meta name="author" content="PixelsDB">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/materialdesignicons.min.css" rel="stylesheet">
 <link rel="stylesheet" href="js/bootstrap-multitabs/multitabs.min.css">
 <link href="css/style.min.css" rel="stylesheet">
 </head>
-  
+
 <body>
 <div class="lyear-layout-web">
   <div class="lyear-layout-container">
@@ -28,9 +28,29 @@
         
         <nav class="sidebar-main">
           <ul class="nav nav-drawer">
-            <li class="nav-item active"> <a class="multitabs" href="lyear_main.html"><i class="mdi mdi-home"></i> <span>后台首页</span></a> </li>
-            <li class="nav-item nav-item-has-subnav">
-              <a href="javascript:void(0)"><i class="mdi mdi-palette"></i> <span>UI 元素</span></a>
+            <li class="nav-item active"> <!-- <a class="multitabs" href="lyear_main.html"><i class="mdi mdi-home"></i> <span>Home</span></a> --> </li>
+              <li class="nav-item nav-item-has-subnav">
+                  <a href="javascript:void(0)"><i class="mdi mdi-folder"></i> <span>Schemas</span></a>
+                  <ul class="nav nav-subnav">
+                      <li> <a href="#!">一级菜单</a> </li>
+                      <li class="nav-item nav-item-has-subnav">
+                          <a href="#!">一级菜单</a>
+                          <ul class="nav nav-subnav">
+                              <li> <a href="#!">二级菜单</a> </li>
+                              <li class="nav-item nav-item-has-subnav">
+                                  <a href="#!">二级菜单</a>
+                                  <ul class="nav nav-subnav">
+                                      <li> <a href="#!">三级菜单</a> </li>
+                                      <li> <a href="#!">三级菜单</a> </li>
+                                  </ul>
+                              </li>
+                          </ul>
+                      </li>
+                      <li> <a href="#!">一级菜单</a> </li>
+                  </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)"><i class="mdi mdi-chart-bar"></i> <span>Reports</span></a>
               <ul class="nav nav-subnav">
                 <li> <a class="multitabs" href="lyear_ui_buttons.html">按钮</a> </li>
                 <li> <a class="multitabs" href="lyear_ui_cards.html">卡片</a> </li>
@@ -49,7 +69,7 @@
               </ul>
             </li>
             <li class="nav-item nav-item-has-subnav">
-              <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i> <span>表单</span></a>
+              <a href="javascript:void(0)"><i class="mdi mdi-settings"></i> <span>Settings</span></a>
               <ul class="nav nav-subnav">
                 <li> <a class="multitabs" href="lyear_forms_elements.html">基本元素</a> </li>
                 <li> <a class="multitabs" href="lyear_forms_radio.html">单选框</a> </li>
@@ -86,31 +106,11 @@
                 <li> <a class="multitabs" href="lyear_js_notify.html">通知消息</a> </li>
               </ul>
             </li>
-            <li class="nav-item nav-item-has-subnav">
-              <a href="javascript:void(0)"><i class="mdi mdi-menu"></i> <span>多级菜单</span></a>
-              <ul class="nav nav-subnav">
-                <li> <a href="#!">一级菜单</a> </li>
-                <li class="nav-item nav-item-has-subnav"> 
-                  <a href="#!">一级菜单</a>
-                  <ul class="nav nav-subnav">
-                    <li> <a href="#!">二级菜单</a> </li>
-                    <li class="nav-item nav-item-has-subnav"> 
-                      <a href="#!">二级菜单</a>
-                      <ul class="nav nav-subnav">
-                        <li> <a href="#!">三级菜单</a> </li>
-                        <li> <a href="#!">三级菜单</a> </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li> <a href="#!">一级菜单</a> </li>
-              </ul>
-            </li>
           </ul>
         </nav>
         
         <div class="sidebar-footer">
-          <p class="copyright">Copyright &copy; 2019. <a target="_blank" href="http://lyear.itshubao.com">IT书包</a> All rights reserved.</p>
+        <!--  <p class="copyright">Copyright &copy; 2023. <a target="_blank" href="http://pixelsdb.io">PxelsDB</a> All rights reserved.</p> -->
         </div>
       </div>
       
@@ -135,7 +135,7 @@
             <li class="dropdown dropdown-profile">
               <a href="javascript:void(0)" data-toggle="dropdown">
                 <img class="img-avatar img-avatar-48 m-r-10" src="images/users/avatar.jpg" alt="笔下光年" />
-                <span>笔下光年 <span class="caret"></span></span>
+                <!--<span>笔下光年 <span class="caret"></span></span>-->
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
                 <li> <a class="multitabs" data-url="lyear_pages_profile.html" href="javascript:void(0)"><i class="mdi mdi-account"></i> 个人信息</a> </li>
@@ -145,118 +145,6 @@
                 <li> <a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
               </ul>
             </li>
-            <!--切换主题配色-->
-		    <li class="dropdown dropdown-skin">
-			  <span data-toggle="dropdown" class="icon-palette"><i class="mdi mdi-palette"></i></span>
-			  <ul class="dropdown-menu dropdown-menu-right" data-stopPropagation="true">
-			    <li class="drop-title"><p>LOGO</p></li>
-				<li class="drop-skin-li clearfix">
-                  <span class="inverse">
-                    <input type="radio" name="logo_bg" value="default" id="logo_bg_1" checked>
-                    <label for="logo_bg_1"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="logo_bg" value="color_2" id="logo_bg_2">
-                    <label for="logo_bg_2"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="logo_bg" value="color_3" id="logo_bg_3">
-                    <label for="logo_bg_3"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="logo_bg" value="color_4" id="logo_bg_4">
-                    <label for="logo_bg_4"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="logo_bg" value="color_5" id="logo_bg_5">
-                    <label for="logo_bg_5"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="logo_bg" value="color_6" id="logo_bg_6">
-                    <label for="logo_bg_6"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="logo_bg" value="color_7" id="logo_bg_7">
-                    <label for="logo_bg_7"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="logo_bg" value="color_8" id="logo_bg_8">
-                    <label for="logo_bg_8"></label>
-                  </span>
-				</li>
-				<li class="drop-title"><p>头部</p></li>
-				<li class="drop-skin-li clearfix">
-                  <span class="inverse">
-                    <input type="radio" name="header_bg" value="default" id="header_bg_1" checked>
-                    <label for="header_bg_1"></label>                      
-                  </span>                                                    
-                  <span>                                                     
-                    <input type="radio" name="header_bg" value="color_2" id="header_bg_2">
-                    <label for="header_bg_2"></label>                      
-                  </span>                                                    
-                  <span>                                                     
-                    <input type="radio" name="header_bg" value="color_3" id="header_bg_3">
-                    <label for="header_bg_3"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="header_bg" value="color_4" id="header_bg_4">
-                    <label for="header_bg_4"></label>                      
-                  </span>                                                    
-                  <span>                                                     
-                    <input type="radio" name="header_bg" value="color_5" id="header_bg_5">
-                    <label for="header_bg_5"></label>                      
-                  </span>                                                    
-                  <span>                                                     
-                    <input type="radio" name="header_bg" value="color_6" id="header_bg_6">
-                    <label for="header_bg_6"></label>                      
-                  </span>                                                    
-                  <span>                                                     
-                    <input type="radio" name="header_bg" value="color_7" id="header_bg_7">
-                    <label for="header_bg_7"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="header_bg" value="color_8" id="header_bg_8">
-                    <label for="header_bg_8"></label>
-                  </span>
-				</li>
-				<li class="drop-title"><p>侧边栏</p></li>
-				<li class="drop-skin-li clearfix">
-                  <span class="inverse">
-                    <input type="radio" name="sidebar_bg" value="default" id="sidebar_bg_1" checked>
-                    <label for="sidebar_bg_1"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="sidebar_bg" value="color_2" id="sidebar_bg_2">
-                    <label for="sidebar_bg_2"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="sidebar_bg" value="color_3" id="sidebar_bg_3">
-                    <label for="sidebar_bg_3"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="sidebar_bg" value="color_4" id="sidebar_bg_4">
-                    <label for="sidebar_bg_4"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="sidebar_bg" value="color_5" id="sidebar_bg_5">
-                    <label for="sidebar_bg_5"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="sidebar_bg" value="color_6" id="sidebar_bg_6">
-                    <label for="sidebar_bg_6"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="sidebar_bg" value="color_7" id="sidebar_bg_7">
-                    <label for="sidebar_bg_7"></label>
-                  </span>
-                  <span>
-                    <input type="radio" name="sidebar_bg" value="color_8" id="sidebar_bg_8">
-                    <label for="sidebar_bg_8"></label>
-                  </span>
-				</li>
-			  </ul>
-			</li>
-            <!--切换主题配色-->
           </ul>
           
         </div>

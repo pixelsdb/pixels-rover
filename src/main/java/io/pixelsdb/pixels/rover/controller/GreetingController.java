@@ -1,4 +1,4 @@
-package io.pixelsdb.pixels.workbench.controller;
+package io.pixelsdb.pixels.rover.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

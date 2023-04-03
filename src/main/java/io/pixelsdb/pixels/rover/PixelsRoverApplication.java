@@ -1,13 +1,14 @@
-package io.pixelsdb.pixels.workbench;
+package io.pixelsdb.pixels.rover;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PixelsWorkbenchApplication {
+public class PixelsRoverApplication
+{
 
 	public static void main(String[] args) {
-		SpringApplication.run(PixelsWorkbenchApplication.class, args);
+		SpringApplication.run(PixelsRoverApplication.class, args);
 	}
 
 }

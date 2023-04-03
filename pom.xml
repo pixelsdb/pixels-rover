@@ -9,15 +9,19 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.pixelsdb.pixels</groupId>
-	<artifactId>pixels-workbench</artifactId>
+	<artifactId>pixels-rover</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Pixels Workbench</name>
-	<description>The Workbench of Pixels.</description>
+	<name>Pixels Rover</name>
+	<description>The workbench and REST API of Pixels.</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>

@@ -17,11 +17,11 @@ package io.pixelsdb.pixels.rover.model;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -32,19 +32,17 @@ import java.util.Objects;
 @Entity
 public class User
 {
-    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    private String username;
     private String name;
     private String email;
     private String affiliation;
     private String password;
     private Timestamp createTime;
 
-    public User(String username, String name, String email,
+    public User(String name, String email,
                 String affiliation, String password, Timestamp createTime)
     {
-        this.username = username;
         this.name = name;
         this.email = email;
         this.affiliation = affiliation;
@@ -57,7 +55,7 @@ public class User
     @Override
     public int hashCode()
     {
-        return Objects.hash(this.id, this.username, this.email);
+        return Objects.hash(this.id, this.email);
     }
 
     @Override
@@ -68,8 +66,7 @@ public class User
         if (!(obj instanceof User))
             return false;
         User user = (User) obj;
-        return Objects.equals(this.id, user.id) && Objects.equals(this.name, user.name) &&
-                Objects.equals(this.email, user.email);
+        return Objects.equals(this.id, user.id) && Objects.equals(this.email, user.email);
     }
 
     @Override
@@ -81,11 +78,6 @@ public class User
     public Long getId()
     {
         return id;
-    }
-
-    public String getUsername()
-    {
-        return username;
     }
 
     public String getName()
@@ -107,6 +99,36 @@ public class User
     public String getPassword()
     {
         return password;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public void setAffiliation(String affiliation)
+    {
+        this.affiliation = affiliation;
+    }
+
+    public void setCreateTime(Timestamp createTime)
+    {
+        this.createTime = createTime;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     public Timestamp getCreateTime()

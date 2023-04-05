@@ -5,20 +5,20 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.10</version>
+		<version>3.0.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.pixelsdb.pixels</groupId>
 	<artifactId>pixels-rover</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Pixels Rover</name>
 	<description>The workbench and REST API of Pixels.</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>8</maven.compiler.target>
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 
 		<!-- libraries to interact with the components in Pixels -->
 		<dep.pixels.version>0.1.0-SNAPSHOT</dep.pixels.version>
@@ -37,7 +37,6 @@
 			<groupId>io.pixelsdb</groupId>
 			<artifactId>pixels-common</artifactId>
 			<version>${dep.pixels.version}</version>
-			<optional>true</optional>
 		</dependency>
 
 		<!-- protobuf -->
@@ -45,7 +44,7 @@
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
 			<version>${dep.protobuf.version}</version>
-			<optional>true</optional>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- grpc -->
@@ -53,16 +52,19 @@
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-netty-shaded</artifactId>
 			<version>${dep.grpc.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-protobuf</artifactId>
 			<version>${dep.grpc.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-stub</artifactId>
 			<version>${dep.grpc.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- fastjson -->
@@ -104,6 +106,20 @@
 			<version>${dep.prometheus.client.version}</version>
 		</dependency>
 
+		<!-- mysql -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- captcha -->
+		<dependency>
+			<groupId>com.github.whvcse</groupId>
+			<artifactId>easy-captcha</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
 		<!-- spring boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -117,6 +133,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -125,18 +145,26 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- thymeleaf -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
+
+		<!-- testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

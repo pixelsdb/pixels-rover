@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.sql.Timestamp;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static io.pixelsdb.pixels.rover.controller.WebMessage.*;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -58,7 +59,7 @@ public class WebController
     {
         if (authentication != null && authentication.isAuthenticated())
         {
-            return "home";
+            return "redirect:/home";
         }
         return "signin";
     }
@@ -74,13 +75,24 @@ public class WebController
     public String signupSubmit(User user, Model model)
     {
         System.out.println(user.toString());
+        User existUser = userRepository.findByEmail(user.getEmail());
+        if (existUser != null)
+        {
+            model.addAttribute("msg", USER_EXISTS);
+            return "signup";
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        System.out.println(encodedPassword);
         userRepository.save(user);
-        model.addAttribute("msg", "signup");
+        return "redirect:/signup_success"; // redirect uses get method
+    }
+
+    @GetMapping("/signup_success")
+    public String signupSuccess(Model model)
+    {
+        model.addAttribute("msg", SIGNUP_SUCCESS);
         return "signin";
     }
 
@@ -91,7 +103,7 @@ public class WebController
         if (authentication != null && authentication.isAuthenticated())
         {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
-            model.addAttribute("msg", "logout");
+            model.addAttribute("msg", LOGOUT_SUCCESS);
         }
         return "signin";
     }

@@ -67,12 +67,7 @@
       <div th:if="${param.logout}">
         You have been signed out.
       </div>
-      <div th:if="${msg != null && msg == 'logout'}">
-        You have been signed out.
-      </div>
-      <div th:if="${msg != null && msg == 'signup'}">
-        You have signed up successfully!
-      </div>
+      <div th:if="${msg}" th:text="${msg}"></div>
       <form th:action="@{/signin}" method="post">
         <div class="form-group has-feedback feedback-left">
           <input type="email" placeholder="username (email)" class="form-control" name="username" id="username" />

@@ -61,6 +61,7 @@
       <div class="login-header text-center">
         <img alt="light year admin" src="images/logo-sidebar.png">
       </div>
+      <div th:if="${msg}" th:text="${msg}"></div>
       <form th:action="@{/signup}" method="post" th:object="${user}">
         <div class="form-group has-feedback feedback-left">
           <input type="text" placeholder="your name" class="form-control" th:field="*{name}" />

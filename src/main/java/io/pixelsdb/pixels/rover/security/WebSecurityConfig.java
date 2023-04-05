@@ -27,11 +27,11 @@ public class WebSecurityConfig
     {
         // Configure the paths that do not require authentication.
         http.authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/signin", "/signup",
+                        .requestMatchers("/", "/signin", "/signup", "/signup_success",
                                 "/css/**", "/js/**", "/images/**", "/fonts/**") // the paths
                         .permitAll().anyRequest().authenticated())
                 .formLogin((form) -> form
-                        .loginPage("/signin").successForwardUrl("/home")
+                        .loginPage("/signin").defaultSuccessUrl("/home")
                         .permitAll())
                 .logout((logout) -> logout.permitAll());
 

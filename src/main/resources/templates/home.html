@@ -22,7 +22,7 @@
       
       <!-- logo -->
       <div id="logo" class="sidebar-header">
-        <a href="home.html"><img src="images/logo-sidebar.png" title="LightYear" alt="LightYear" /></a>
+        <a th:href="@{/home}"><img src="images/logo-sidebar.png" title="LightYear" alt="LightYear" /></a>
       </div>
       <div class="lyear-layout-sidebar-scroll"> 
         
@@ -135,7 +135,7 @@
             <li class="dropdown dropdown-profile">
               <a href="javascript:void(0)" data-toggle="dropdown">
                 <img class="img-avatar img-avatar-48 m-r-10" src="images/users/avatar.jpg" th:alt="${user.getName()}" />
-                <span th:text="${user.getName()}"><span class="caret"></span></span>
+                <span th:text="${user.getName()} "></span><span class="caret"></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
                 <li> <a class="multitabs" data-url="lyear_pages_profile.html" href="javascript:void(0)"><i class="mdi mdi-account"></i> 个人信息</a> </li>

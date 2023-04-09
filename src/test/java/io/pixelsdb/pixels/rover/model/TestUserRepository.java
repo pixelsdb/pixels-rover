@@ -1,5 +1,6 @@
 package io.pixelsdb.pixels.rover.model;
 
+import io.pixelsdb.pixels.rover.mapper.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

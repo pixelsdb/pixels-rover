@@ -79,6 +79,18 @@
           <input type="password" placeholder="password" class="form-control" th:field="*{password}" />
           <span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span>
         </div>
+        <div class="form-group has-feedback feedback-left">
+          <div class="row m-t">
+            <div class="col-xs-6">
+              <input type="text" name="validateCode"  id="validateCode" class="form-control code" placeholder="验证码" maxlength="5" />
+            </div>
+            <div class="col-xs-6">
+              <a href="javascript:void(0);" title="点击更换验证码">
+                <img th:src="@{/captcha/captchaImage}" class="imgcode" width="85%"/>
+              </a>
+            </div>
+          </div>
+        </div>
         <div class="form-group">
           <button class="btn btn-block btn-primary" type="submit">Sign Up</button>
         </div>
@@ -93,5 +105,21 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript">;</script>
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/js/issue-ui.js" th:src="@{/js/issue-ui.js?v=4.7.6}"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+<script type="text/javascript">
+  $(function() {
+    $('.imgcode').click(function() {
+      var url = "/captcha/captchaImage";
+      $(".imgcode").attr("src", url);
+    });
+  });
+</script>
 </body>
 </html>

@@ -22,6 +22,8 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<maven.deploy.skip>true</maven.deploy.skip>
+		<maven.install.skip>true</maven.install.skip>
 
 		<!-- web frameworks and packaging -->
 		<dep.spring.boot.version>3.0.5</dep.spring.boot.version>

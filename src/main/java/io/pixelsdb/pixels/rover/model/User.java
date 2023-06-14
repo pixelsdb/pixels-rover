@@ -26,8 +26,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
- * Created at: 4/3/23
- * Author: hank
+ * @author hank
+ * @create 2023-04-03
  */
 @Entity
 public class User

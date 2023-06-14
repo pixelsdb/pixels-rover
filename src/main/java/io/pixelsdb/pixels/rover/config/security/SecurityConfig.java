@@ -42,8 +42,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created at: 4/5/23
- * Author: hank
+ * @author hank
+ * @create 2023-04-05
  */
 @Configuration
 @EnableWebSecurity

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 PixelsDB.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.pixelsdb.pixels.rover.config.exception;
 
 import io.pixelsdb.pixels.rover.config.common.AjaxResult;
@@ -34,8 +49,8 @@ public class GlobalExceptionHandler
     public AjaxResult handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',权限校验失败'{}'", requestURI, e.getMessage());
-        return AjaxResult.error(HttpStatus.FORBIDDEN, "没有权限，请联系管理员授权");
+        log.error("Request URI'{}', permission check failed'{}'", requestURI, e.getMessage());
+        return AjaxResult.error(HttpStatus.FORBIDDEN, "No permission, please contact the administrator");
     }
 
     /**
@@ -46,7 +61,7 @@ public class GlobalExceptionHandler
             HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
+        log.error("Request URI'{}', request'{}' is not supported", requestURI, e.getMethod());
         return AjaxResult.error(e.getMessage());
     }
 
@@ -58,7 +73,7 @@ public class GlobalExceptionHandler
                                                           HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',验证码'{}'", requestURI, e.getMessage());
+        log.error("Request URI'{}', captcha'{}'", requestURI, e.getMessage());
         return AjaxResult.error(e.getMessage());
     }
 
@@ -80,7 +95,7 @@ public class GlobalExceptionHandler
     public AjaxResult handleRuntimeException(RuntimeException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',发生未知异常.", requestURI, e);
+        log.error("Request URI'{}', unknown exception", requestURI, e);
         return AjaxResult.error(e.getMessage());
     }
 
@@ -91,7 +106,7 @@ public class GlobalExceptionHandler
     public AjaxResult handleException(Exception e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',发生系统异常.", requestURI, e);
+        log.error("Request URI'{}', system exception", requestURI, e);
         return AjaxResult.error(e.getMessage());
     }
 
@@ -123,6 +138,6 @@ public class GlobalExceptionHandler
     @ExceptionHandler(DemoModeException.class)
     public AjaxResult handleDemoModeException(DemoModeException e)
     {
-        return AjaxResult.error("演示模式，不允许操作");
+        return AjaxResult.error("Demo mode, operation is not permitted");
     }
 }

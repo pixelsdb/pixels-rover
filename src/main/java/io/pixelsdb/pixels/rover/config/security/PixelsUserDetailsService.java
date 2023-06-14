@@ -22,8 +22,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * Created at: 4/5/23
- * Author: hank
+ * @author hank
+ * @create 2023-04-05
  */
 public class PixelsUserDetailsService implements UserDetailsService
 {

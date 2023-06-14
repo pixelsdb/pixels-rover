@@ -24,8 +24,8 @@ import java.util.Collection;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Created at: 4/5/23
- * Author: hank
+ * @author hank
+ * @create 2023-04-05
  */
 public class PixelsUserDetails implements UserDetails
 {

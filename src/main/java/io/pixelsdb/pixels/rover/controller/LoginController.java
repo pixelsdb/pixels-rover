@@ -15,30 +15,21 @@
  */
 package io.pixelsdb.pixels.rover.controller;
 
-import io.pixelsdb.pixels.rover.config.common.AjaxResult;
 import io.pixelsdb.pixels.rover.config.common.BaseController;
-import io.pixelsdb.pixels.rover.model.User;
 import io.pixelsdb.pixels.rover.mapper.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.Timestamp;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static io.pixelsdb.pixels.rover.constant.WebMessage.*;
-import static java.util.Objects.requireNonNull;
+import static io.pixelsdb.pixels.rover.constant.WebMessage.LOGOUT_SUCCESS;
 
 /**
- * Created at: 4/1/23
- * Author: hank
+ * @author hank
+ * @create 2023-04-01
  */
 @Controller
 public class LoginController extends BaseController

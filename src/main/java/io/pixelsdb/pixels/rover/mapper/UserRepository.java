@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 PixelsDB.
+ * Copyright 2023 PixelsDB.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ import io.pixelsdb.pixels.rover.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Created at: 4/3/23
- * Author: hank
+ * @author hank
+ * @create 2023-04-03
  */
 public interface UserRepository extends JpaRepository<User, Long>
 {

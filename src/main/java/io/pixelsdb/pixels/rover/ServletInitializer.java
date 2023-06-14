@@ -25,5 +25,4 @@ public class ServletInitializer extends SpringBootServletInitializer {
 	{
 		return application.sources(PixelsRoverApplication.class);
 	}
-
 }

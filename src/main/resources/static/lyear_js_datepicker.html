@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>日期选择器 - 光年(Light Year Admin)后台管理系统模板</title>
+<link rel="icon" href="favicon.ico" type="image/ico">
+<meta name="keywords" content="Pixels Rover">
+<meta name="description" content="The Rover of Pixels, a cloud-native data lake. See pixelsdb.io">
+<meta name="author" content="PixelsDB">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/materialdesignicons.min.css" rel="stylesheet">
+<!--时间选择插件-->
+<link rel="stylesheet" href="js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+<!--日期选择插件-->
+<link rel="stylesheet" href="js/bootstrap-datepicker/bootstrap-datepicker3.min.css">
+<link href="css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+<div class="container-fluid p-t-15">
+  
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><h4>时间选择</h4></div>
+        <div class="card-body">
+          
+          <input class="form-control js-datetimepicker" type="text" id="example-datetimepicker" name="add_time" placeholder="请选择具体时间" value="" data-side-by-side="true" data-locale="zh-cn" data-format="YYYY-MM-DD HH:mm:ss" />
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><h4>日期选择</h4></div>
+        <div class="card-body">
+          
+          <input class="form-control js-datepicker m-b-10" type="text" id="example-datepicker" name="example-datepicker" placeholder="yyyy-mm-dd" value="" data-date-format="yyyy-mm-dd" />
+          
+          <input class="form-control js-datepicker m-b-10" type="text" id="example-datepicker1" name="example-datepicker1" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
+          
+          <input class="form-control js-datepicker m-b-10" type="text" id="example-datepicker2" name="example-datepicker2" data-date-format="yy/mm/dd" placeholder="yy/mm/dd">
+          
+          <div class="input-daterange input-group js-datepicker" data-auto-close="false" data-date-format="yyyy-mm-dd">
+            <input class="form-control" type="text" id="example-daterange1" name="example-daterange1" placeholder="从">
+            <span class="input-group-addon"><i class="mdi mdi-chevron-right"></i></span>
+            <input class="form-control" type="text" id="example-daterange2" name="example-daterange2" placeholder="至">
+          </div>
+          
+          <p class="m-t-15">单独选择年份</p>
+          <p class="text-danger">因为和通用初始化有些不一样，这里单独对此做初始化。</p>
+          <input class="form-control m-b-10" type="text" id="example-datepicker-year" name="example-datepicker-year" data-date-format="yyyy" placeholder="yyyy">
+          
+          <p class="m-t-15">单独选择月份</p>
+          <input class="form-control m-b-10" type="text" id="example-datepicker-month" name="example-datepicker-month" data-date-format="mm" placeholder="mm">
+          
+          <p class="m-t-15">单独选择天就不演示了，<code>data-date-format="dd"</code>即可。</p>
+          
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<!--时间选择插件-->
+<script src="js/bootstrap-datetimepicker/moment.min.js"></script>
+<script src="js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="js/bootstrap-datetimepicker/locale/zh-cn.js"></script>
+<!--日期选择插件-->
+<script src="js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript">
+    // 单独选择年份
+	jQuery('#example-datepicker-year').each(function() {
+	    var $input = jQuery(this);
+		$input.datepicker({
+            startView: 'decade',  
+            endView: 'decade',
+            maxViewMode: 'decade',  
+            minViewMode: 'decade', 
+			weekStart: 1,
+			autoclose: true,
+			todayHighlight: true,
+			language: 'zh-CN',
+		});
+	});
+    // 单独选择月份
+	jQuery('#example-datepicker-month').each(function() {
+	    var $input = jQuery(this);
+		$input.datepicker({
+            startView: 'month',  
+            endView: 'month',
+            maxViewMode: 'year',  
+            minViewMode: 'year', 
+			weekStart: 1,
+			autoclose: true,
+			todayHighlight: true,
+			language: 'zh-CN',
+		});
+	});
+</script>
+</body>
+</html>

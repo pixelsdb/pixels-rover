@@ -88,7 +88,7 @@ public class SecurityConfig
                         // 验证码不正确
                       /*  throw new CaptchaException();*/
                         Map<String, Object> result = new HashMap<>();
-                        result.put("msg", "验证码错误");
+                        result.put("msg", "Verification code error");
                         result.put("code", HttpStatus.ERROR);
                         response.setContentType("application/json;charset=UTF-8");
                         String jsonData = new ObjectMapper().writeValueAsString(result);

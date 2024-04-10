@@ -1,172 +1,178 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Pixels Rover</title>
-<link rel="icon" href="favicon.ico" type="image/ico">
-<meta name="keywords" content="Pixels Rover">
-<meta name="description" content="The Rover of Pixels, a cloud-native data lake. See pixelsdb.io">
-<meta name="author" content="PixelsDB">
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/materialdesignicons.min.css" rel="stylesheet">
-<link rel="stylesheet" href="js/bootstrap-multitabs/multitabs.min.css">
-<link href="css/style.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>PixelsDB</title>
+    <link rel="icon" href="favicon.ico" type="image/ico">
+    <meta name="keywords" content="PixelsDB">
+    <meta name="description" content="The Rover of Pixels, a cloud-native data lake. See pixelsdb.io">
+    <meta name="author" content="DongyangGeng">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="js/highlight/highlight.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/rover.css">
+    <!-- JS -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/highlight/highlight.min.js"></script>
+    <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-multitabs/multitabs.js"></script>
+    <script type="text/javascript" src="js/home.js"></script>
+    <!-- codeMirror -->
+    <script src="js/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="js/codemirror/codemirror.css">
+    <script src="js/codemirror/sql.js"></script>
 </head>
 
 <body>
-<div class="lyear-layout-web">
-  <div class="lyear-layout-container">
-    <!--左侧导航-->
-    <aside class="lyear-layout-sidebar">
-      
-      <!-- logo -->
-      <div id="logo" class="sidebar-header">
-        <a th:href="@{/home}"><img src="images/logo-sidebar.png" title="LightYear" alt="LightYear" /></a>
-      </div>
-      <div class="lyear-layout-sidebar-scroll"> 
-        
-        <nav class="sidebar-main">
-          <ul class="nav nav-drawer">
-            <li class="nav-item active"> <!-- <a class="multitabs" href="lyear_main.html"><i class="mdi mdi-home"></i> <span>Home</span></a> --> </li>
-              <li class="nav-item nav-item-has-subnav">
-                  <a href="javascript:void(0)"><i class="mdi mdi-folder"></i> <span>Schemas</span></a>
-                  <ul class="nav nav-subnav">
-                      <li> <a href="#!">一级菜单</a> </li>
-                      <li class="nav-item nav-item-has-subnav">
-                          <a href="#!">一级菜单</a>
-                          <ul class="nav nav-subnav">
-                              <li> <a href="#!">二级菜单</a> </li>
-                              <li class="nav-item nav-item-has-subnav">
-                                  <a href="#!">二级菜单</a>
-                                  <ul class="nav nav-subnav">
-                                      <li> <a href="#!">三级菜单</a> </li>
-                                      <li> <a href="#!">三级菜单</a> </li>
-                                  </ul>
-                              </li>
-                          </ul>
-                      </li>
-                      <li> <a href="#!">一级菜单</a> </li>
-                  </ul>
-              </li>
-              <li class="nav-item nav-item-has-subnav">
-              <a href="javascript:void(0)"><i class="mdi mdi-chart-bar"></i> <span>Reports</span></a>
-              <ul class="nav nav-subnav">
-                <li> <a class="multitabs" href="lyear_ui_buttons.html">按钮</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_cards.html">卡片</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_grid.html">格栅</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_icons.html">图标</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_tables.html">表格</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_modals.html">模态框</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_tooltips_popover.html">提示 / 弹出框</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_alerts.html">警告框</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_pagination.html">分页</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_progress.html">进度条</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_tabs.html">标签页</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_typography.html">排版</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_step.html">步骤</a> </li>
-                <li> <a class="multitabs" href="lyear_ui_other.html">其他</a> </li>
-              </ul>
-            </li>
-            <li class="nav-item nav-item-has-subnav">
-              <a href="javascript:void(0)"><i class="mdi mdi-settings"></i> <span>Settings</span></a>
-              <ul class="nav nav-subnav">
-                <li> <a class="multitabs" href="lyear_forms_elements.html">基本元素</a> </li>
-                <li> <a class="multitabs" href="lyear_forms_radio.html">单选框</a> </li>
-                <li> <a class="multitabs" href="lyear_forms_checkbox.html">复选框</a> </li>
-                <li> <a class="multitabs" href="lyear_forms_switch.html">开关</a> </li>
-              </ul>
-            </li>
-            <li class="nav-item nav-item-has-subnav">
-              <a href="javascript:void(0)"><i class="mdi mdi-file-outline"></i> <span>示例页面</span></a>
-              <ul class="nav nav-subnav">
-                <li> <a class="multitabs" href="lyear_pages_doc.html">文档列表</a> </li>
-                <li> <a class="multitabs" href="lyear_pages_gallery.html">图库列表</a> </li>
-                <li> <a class="multitabs" href="lyear_pages_config.html">网站配置</a> </li>
-                <li> <a class="multitabs" href="lyear_pages_rabc.html">设置权限</a> </li>
-                <li> <a class="multitabs" href="lyear_pages_add_doc.html">新增文档</a> </li>
-                <li> <a class="multitabs" href="lyear_pages_guide.html">表单向导</a> </li>
-                <li> <a class="multitabs" href="lyear_pages_data_table.html">表格插件</a> </li>
-                <li> <a href="lyear_pages_login.html" target="_blank">登录页面</a> </li>
-                <li> <a href="lyear_pages_login_2.html" target="_blank">登录页面2</a> </li>
-                <li> <a href="lyear_pages_login_3.html" target="_blank">登录页面3</a> </li>
-                <li> <a href="lyear_pages_login_4.html" target="_blank">登录页面4</a> </li>
-                <li> <a href="lyear_pages_error.html" target="_blank">错误页面</a> </li>
-              </ul>
-            </li>
-            <li class="nav-item nav-item-has-subnav">
-              <a href="javascript:void(0)"><i class="mdi mdi-language-javascript"></i> <span>JS 插件</span></a>
-              <ul class="nav nav-subnav">
-                <li> <a class="multitabs" href="lyear_js_datepicker.html">日期选取器</a> </li>
-                <li> <a class="multitabs" href="lyear_js_sliders.html">滑块</a> </li>
-                <li> <a class="multitabs" href="lyear_js_colorpicker.html">选色器</a> </li>
-                <li> <a class="multitabs" href="lyear_js_chartjs.html">Chart.js</a> </li>
-                <li> <a class="multitabs" href="lyear_js_jconfirm.html">对话框</a> </li>
-                <li> <a class="multitabs" href="lyear_js_tags_input.html">标签插件</a> </li>
-                <li> <a class="multitabs" href="lyear_js_notify.html">通知消息</a> </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-        
-        <div class="sidebar-footer">
-        <!--  <p class="copyright">Copyright &copy; 2023. <a target="_blank" href="http://pixelsdb.io">PxelsDB</a> All rights reserved.</p> -->
-        </div>
-      </div>
-      
-    </aside>
-    <!--End 左侧导航-->
-    
-    <!--头部信息-->
-    <header class="lyear-layout-header">
-      
-      <nav class="navbar navbar-default">
-        <div class="topbar">
-          
-          <div class="topbar-left">
-            <div class="lyear-aside-toggler">
-              <span class="lyear-toggler-bar"></span>
-              <span class="lyear-toggler-bar"></span>
-              <span class="lyear-toggler-bar"></span>
+<div class="pixels-layout-web">
+    <div class="pixels-layout-container">
+        <!--左侧导航-->
+        <aside class="pixels-layout-sidebar">
+            <!-- logo -->
+            <div id="logo" class="sidebar-header">
+                <a th:href="@{/home}"><img src="images/logo-sidebar.png" title="PixelsDB" alt="PixelsDB"/></a>
             </div>
-          </div>
-          
-          <ul class="topbar-right">
-            <li class="dropdown dropdown-profile">
-              <a href="javascript:void(0)" data-toggle="dropdown">
-                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/avatar.jpg" th:alt="${user.getName()}" />
-                <span th:text="${user.getName()} "></span><span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li> <a class="multitabs" data-url="lyear_pages_profile.html" href="javascript:void(0)"><i class="mdi mdi-account"></i> 个人信息</a> </li>
-                <li> <a class="multitabs" data-url="lyear_pages_edit_pwd.html" href="javascript:void(0)"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
-                <li> <a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
-                <li class="divider"></li>
-                <li> <a th:href="@{/logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
-              </ul>
-            </li>
-          </ul>
-          
-        </div>
-      </nav>
-      
-    </header>
-    <!--End 头部信息-->
-    
-    <!--页面主要内容-->
-    <main class="lyear-layout-content">
-      
-      <div id="iframe-content"></div>
-      
-    </main>
-    <!--End 页面主要内容-->
-  </div>
-</div>
+            <div class="pixels-layout-sidebar-scroll">
+                <nav class="sidebar-main">
+                    <ul class="nav nav-drawer">
+                        <li class="nav-item active">
+                        <li class="nav-item nav-item-has-subnav" id="schemasMenu">
+                            <a href="javascript:void(0)" onclick="showSchemas()">
+                                <img src="images/schema.svg" alt="Schema Icon">
+                                <span>Schemas</span>
+                            </a>
+                            <ul class="nav nav-subnav" id="schemaMenu">
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)">
+                                <img src="images/report.svg" alt="Report Icon">
+                                <span>Reports</span>
+                            </a>
+                            <ul class="nav nav-subnav">
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)">
+                                <img src="images/setting.svg" alt="Setting Icon">
+                                <span>Settings</span>
+                            </a>
+                            <ul class="nav nav-subnav">
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
-<script type="text/javascript" src="js/bootstrap-multitabs/multitabs.js"></script>
-<script type="text/javascript" src="js/index.min.js"></script>
+                <div class="sidebar-footer">
+                    <!--  <p class="copyright">Copyright &copy; 2023. <a target="_blank" href="http://pixelsdb.io">PxelsDB</a> All rights reserved.</p> -->
+                </div>
+            </div>
+
+        </aside>
+        <!--End 左侧导航-->
+
+        <!--头部信息-->
+        <header class="pixels-layout-header">
+            <nav class="navbar navbar-default">
+                <div class="topbar">
+                    <div class="topbar-left">
+                        <div class="pixels-aside-toggler">
+                            <span class="pixels-toggler-bar"></span>
+                            <span class="pixels-toggler-bar"></span>
+                            <span class="pixels-toggler-bar"></span>
+                        </div>
+                    </div>
+                    <ul class="topbar-right">
+                        <li class="dropdown dropdown-profile">
+                            <a href="javascript:void(0)" data-toggle="dropdown">
+                                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/avatar-cat.jpg"
+                                     th:alt="${user.getName()}"/>
+                                <span th:text="${user.getName()} "></span><span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a class="multitabs" data-url="pixels_pages_profile.html"
+                                       href="javascript:void(0)">personal profile</a></li>
+                                <li><a class="multitabs" data-url="pixels_pages_edit_pwd.html"
+                                       href="javascript:void(0)">change password</a></li>
+                                <li><a href="javascript:void(0)">clear cache</a></li>
+                                <li class="divider"></li>
+                                <li><a th:href="@{/logout}">sign out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </header>
+        <!--End 头部信息-->
+
+        <!--页面主要内容-->
+        <main class="pixels-layout-content">
+            <div class="row">
+                <!-- 左边区域 -->
+                <div class="col-xs-12 col-sm-6 col-md-6 left-content">
+                    <div class="content-title">
+                        <p class="content-title-name">Translator</p>
+                        <img class="fullscreen-btn" src="images/fullscreen.svg" onclick="toggleFullscreen('left')">
+                    </div>
+
+                    <!-- 聊天区域 -->
+                    <div id="chat-area">
+                        <div class="system-message">
+                            <img class="avatar-image" src="images/logo-ico.png">
+                            <div class="message">
+                                Welcome to PixelsDB!<br>
+                                You can send question and translate it to SQL query.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 发送消息区域 -->
+                    <div id="send-message-area">
+                        <select id="schema-select">
+                        </select>
+                        <input type="text" id="chat-input" placeholder="question">
+                        <button class="btn btn-block btn-primary" id="send-message-button" onclick="sendMessage()">Send</button>
+                    </div>
+
+                    <!-- 模态窗口 -->
+                    <div id="modal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p id="modal-query-sql"></p>
+                            <div class="options-bar">
+                                <select id="modal-execution-hint-select">
+                                    <option value="0">Best-of-effort</option>
+                                    <option value="1">Relaxed</option>
+                                    <option value="2">Immediate</option>
+                                </select>
+                                <input type="number" id="modal-output-rows-input" placeholder="LIMIT">
+                                <img src="images/execute.svg" alt="Confirm" id="modal-confirm-icon" class="icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 拖动条 -->
+                <div class="col-xs-12 col-sm-6 col-md-6 resize"></div>
+
+                <!-- 右边区域 -->
+                <div class="col-xs-12 col-sm-6 col-md-6 right-content">
+                    <!-- 全屏按钮 -->
+                    <div class="content-title">
+                        <p class="content-title-name">Query Result</p>
+                        <img class="fullscreen-btn" src="images/fullscreen.svg" onclick="toggleFullscreen('right')">
+                    </div>
+                    <div id="status-area">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--End 页面主要内容-->
+
+    </div>
+</div>
 </body>
 </html>

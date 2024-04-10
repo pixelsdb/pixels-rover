@@ -554,7 +554,7 @@ if (typeof jQuery === "undefined") {
                 $viSubHeight  = $navHasSubnav.siblings().find('.nav-subnav:visible').outerHeight();
             
             $('.nav-drawer .nav-item').not($navHasSubnav).each(function() {
-                if (window.innerWidth > 1024 && $('body').hasClass('lyear-layout-sidebar-close')) {
+                if (window.innerWidth > 1024 && $('body').hasClass('pixels-layout-sidebar-close')) {
                     $(this).find('.nav-subnav').hide();
                 }
                 $(this).find('.nav-subnav:visible').slideUp(500);
@@ -568,7 +568,7 @@ if (typeof jQuery === "undefined") {
             // 当前菜单无子菜单
             if (!$navObj.parents('.nav-item').first().is('.nav-item-has-subnav')) {
                 var hht = 48 * ( $navObj.parents('.nav-item').first().prevAll().length - 1 );
-                $('.lyear-layout-sidebar-scroll').animate({scrollTop: hht}, 300);
+                $('.pixels-layout-sidebar-scroll').animate({scrollTop: hht}, 300);
             }
             
             var $sideDownObj = $navObj.parents('ul.nav-subnav').filter(':hidden');
@@ -580,7 +580,7 @@ if (typeof jQuery === "undefined") {
                     
                     if (i === $sideDownLen - 1) {
 		                var scrollHeight  = 0,
-                            $scrollBox    = $('.lyear-layout-sidebar-scroll'),
+                            $scrollBox    = $('.pixels-layout-sidebar-scroll'),
 		                    pervTotal     = $navHasSubnav.last().prevAll().length,
 		                    boxHeight     = $scrollBox.outerHeight(),
 	                        innerHeight   = $('.sidebar-main').outerHeight(),

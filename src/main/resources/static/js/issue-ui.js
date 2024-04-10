@@ -1753,7 +1753,7 @@ table_type = {
 
 /** 消息状态码 */
 web_status = {
-    SUCCESS: 0,
+    SUCCESS: 200,
     FAIL: 500,
     WARNING: 301
 };

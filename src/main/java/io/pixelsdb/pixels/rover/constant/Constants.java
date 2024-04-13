@@ -71,5 +71,4 @@ public class Constants
      * 登录失败
      */
     public static final String LOGIN_FAIL = "Error";
-
 }

@@ -35,7 +35,8 @@ public class QueryController
     private final WebClient webClient;
 
     @Autowired
-    public QueryController(WebClient.Builder webClientBuilder) {
+    public QueryController(WebClient.Builder webClientBuilder)
+    {
         String host = ConfigFactory.Instance().getProperty("metadata.server.host");
         assert (host != null);
         int port = 18890;
@@ -48,7 +49,8 @@ public class QueryController
             produces = MediaType.APPLICATION_JSON_VALUE)
     public SubmitQueryResponse submitQuery(@RequestBody SubmitQueryRequest request)
     {
-        try {
+        try
+        {
             // Use WebClient to call the other REST API
             return webClient.post()
                     .uri(RestUrlPath.SUBMIT_QUERY)
@@ -57,7 +59,9 @@ public class QueryController
                     .retrieve()
                     .bodyToMono(SubmitQueryResponse.class)
                     .block(); // block to wait for the response
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
@@ -67,7 +71,8 @@ public class QueryController
             produces = MediaType.APPLICATION_JSON_VALUE)
     public GetQueryStatusResponse getQueryStatus(@RequestBody GetQueryStatusRequest request)
     {
-        try {
+        try
+        {
             // Use WebClient to call the other REST API
             return webClient.post()
                     .uri(RestUrlPath.GET_QUERY_STATUS)
@@ -76,7 +81,9 @@ public class QueryController
                     .retrieve()
                     .bodyToMono(GetQueryStatusResponse.class)
                     .block(); // block to wait for the response
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
@@ -86,7 +93,8 @@ public class QueryController
             produces = MediaType.APPLICATION_JSON_VALUE)
     public GetQueryResultResponse getQueryResult(@RequestBody GetQueryResultRequest request)
     {
-        try {
+        try
+        {
             // Use WebClient to call the other REST API
             return webClient.post()
                     .uri(RestUrlPath.GET_QUERY_RESULT)
@@ -95,7 +103,9 @@ public class QueryController
                     .retrieve()
                     .bodyToMono(GetQueryResultResponse.class)
                     .block(); // block to wait for the response
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }

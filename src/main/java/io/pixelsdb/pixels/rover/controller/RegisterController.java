@@ -39,7 +39,8 @@ import static io.pixelsdb.pixels.rover.constant.WebMessage.CAPTCHA_EXISTS;
  * @author hank
  */
 @Controller
-public class RegisterController extends BaseController {
+public class RegisterController extends BaseController
+{
 
     private final UserRepository userRepository;
 

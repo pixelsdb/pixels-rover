@@ -43,5 +43,4 @@ public class JsonAuthenticationFailHandler implements AuthenticationFailureHandl
         String jsonData = new ObjectMapper().writeValueAsString(result);
         response.getWriter().write(jsonData);
     }
-
 }

@@ -41,7 +41,8 @@ public class MetadataController
     private final WebClient webClient;
 
     @Autowired
-    public MetadataController(WebClient.Builder webClientBuilder) {
+    public MetadataController(WebClient.Builder webClientBuilder)
+    {
         String host = ConfigFactory.Instance().getProperty("metadata.server.host");
         assert (host != null);
         int port = 18890;
@@ -54,7 +55,8 @@ public class MetadataController
             produces = MediaType.APPLICATION_JSON_VALUE)
     public GetSchemasResponse getSchemas(@RequestBody GetSchemasRequest request)
     {
-        try {
+        try
+        {
             // Use WebClient to call the other REST API
             return webClient.post()
                     .uri(RestUrlPath.GET_SCHEMAS)
@@ -63,7 +65,9 @@ public class MetadataController
                     .retrieve()
                     .bodyToMono(GetSchemasResponse.class)
                     .block(); // block to wait for the response
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
@@ -73,7 +77,8 @@ public class MetadataController
             produces = MediaType.APPLICATION_JSON_VALUE)
     public GetTablesResponse getTables(@RequestBody GetTablesRequest request)
     {
-        try {
+        try
+        {
             // Use WebClient to call the other REST API
             return webClient.post()
                     .uri(RestUrlPath.GET_TABLES)
@@ -82,7 +87,9 @@ public class MetadataController
                     .retrieve()
                     .bodyToMono(GetTablesResponse.class)
                     .block(); // block to wait for the response
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
@@ -92,7 +99,8 @@ public class MetadataController
             produces = MediaType.APPLICATION_JSON_VALUE)
     public GetColumnsResponse getColumns(@RequestBody GetColumnsRequest request)
     {
-        try {
+        try
+        {
             // Use WebClient to call the other REST API
             return webClient.post()
                     .uri(RestUrlPath.GET_COLUMNS)
@@ -101,7 +109,9 @@ public class MetadataController
                     .retrieve()
                     .bodyToMono(GetColumnsResponse.class)
                     .block(); // block to wait for the response
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
@@ -111,7 +121,8 @@ public class MetadataController
             produces = MediaType.APPLICATION_JSON_VALUE)
     public GetViewsResponse getViews(@RequestBody GetViewsRequest request)
     {
-        try {
+        try
+        {
             // Use WebClient to call the other REST API
             return webClient.post()
                     .uri(RestUrlPath.GET_VIEWS)
@@ -120,7 +131,9 @@ public class MetadataController
                     .retrieve()
                     .bodyToMono(GetViewsResponse.class)
                     .block(); // block to wait for the response
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }

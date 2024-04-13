@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.code.kaptcha.Constants;
 import io.pixelsdb.pixels.rover.constant.HttpStatus;
 import io.pixelsdb.pixels.rover.mapper.UserRepository;
-import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -37,7 +36,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,32 +71,29 @@ public class SecurityConfig
                 .logoutSuccessUrl("/home");   // 注销登录，成功跳回首页
 
         // 增加Filter, 处理验证码
-        http.addFilterBefore(new Filter() {
-            @Override
-            public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-                HttpServletRequest request = (HttpServletRequest) servletRequest;
-                HttpServletResponse response = (HttpServletResponse) servletResponse;
-                HttpSession session = request.getSession();
+        http.addFilterBefore((servletRequest, servletResponse, filterChain) -> {
+            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+            HttpSession session = request.getSession();
 
-                if(request.getServletPath().equals("/login")) {
-                    // 如果是登录页面, 才处理验证码
-                    String verifyCode = request.getParameter("validateCode");
-                    String sessionVerifyCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
-                    if(verifyCode == null || !verifyCode.equals(sessionVerifyCode)) {
-                        // 验证码不正确
-                      /*  throw new CaptchaException();*/
-                        Map<String, Object> result = new HashMap<>();
-                        result.put("msg", "Verification code error");
-                        result.put("code", HttpStatus.ERROR);
-                        response.setContentType("application/json;charset=UTF-8");
-                        String jsonData = new ObjectMapper().writeValueAsString(result);
-                        response.getWriter().write(jsonData);
-                        return;
-                    }
+            if(request.getServletPath().equals("/login")) {
+                // 如果是登录页面, 才处理验证码
+                String verifyCode = request.getParameter("validateCode");
+                String sessionVerifyCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+                if(verifyCode == null || !verifyCode.equals(sessionVerifyCode)) {
+                    // 验证码不正确
+                  /*  throw new CaptchaException();*/
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("msg", "Verification code error");
+                    result.put("code", HttpStatus.ERROR);
+                    response.setContentType("application/json;charset=UTF-8");
+                    String jsonData = new ObjectMapper().writeValueAsString(result);
+                    response.getWriter().write(jsonData);
+                    return;
                 }
-                // 让请求继续向下执行
-                filterChain.doFilter(request, response);
             }
+            // 让请求继续向下执行
+            filterChain.doFilter(request, response);
         }, UsernamePasswordAuthenticationFilter.class);
 
         http.csrf().disable();

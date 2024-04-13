@@ -149,5 +149,4 @@ public class BaseController
     {
         return StringUtils.format("redirect:{}", url);
     }
-
 }

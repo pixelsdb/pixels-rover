@@ -17,7 +17,6 @@ package io.pixelsdb.pixels.rover.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-
 import io.pixelsdb.pixels.rover.config.common.BaseController;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;

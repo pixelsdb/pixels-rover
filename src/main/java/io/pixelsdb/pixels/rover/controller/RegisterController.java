@@ -30,9 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Timestamp;
 
-import static io.pixelsdb.pixels.rover.constant.WebMessage.SIGNUP_SUCCESS;
-import static io.pixelsdb.pixels.rover.constant.WebMessage.USER_EXISTS;
-import static io.pixelsdb.pixels.rover.constant.WebMessage.CAPTCHA_EXISTS;
+import static io.pixelsdb.pixels.rover.constant.WebMessage.*;
 
 /**
  * Register

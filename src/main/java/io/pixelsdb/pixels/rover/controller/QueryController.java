@@ -15,8 +15,12 @@
  */
 package io.pixelsdb.pixels.rover.controller;
 
-import io.pixelsdb.pixels.common.server.rest.request.*;
-import io.pixelsdb.pixels.common.server.rest.response.*;
+import io.pixelsdb.pixels.common.server.rest.request.GetQueryResultRequest;
+import io.pixelsdb.pixels.common.server.rest.request.GetQueryStatusRequest;
+import io.pixelsdb.pixels.common.server.rest.request.SubmitQueryRequest;
+import io.pixelsdb.pixels.common.server.rest.response.GetQueryResultResponse;
+import io.pixelsdb.pixels.common.server.rest.response.GetQueryStatusResponse;
+import io.pixelsdb.pixels.common.server.rest.response.SubmitQueryResponse;
 import io.pixelsdb.pixels.common.utils.ConfigFactory;
 import io.pixelsdb.pixels.rover.constant.RestUrlPath;
 import org.springframework.beans.factory.annotation.Autowired;

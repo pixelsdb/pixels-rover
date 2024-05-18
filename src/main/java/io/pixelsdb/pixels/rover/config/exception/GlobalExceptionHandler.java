@@ -17,9 +17,9 @@ package io.pixelsdb.pixels.rover.config.exception;
 
 import io.pixelsdb.pixels.rover.config.common.AjaxResult;
 import io.pixelsdb.pixels.rover.constant.HttpStatus;
+import io.pixelsdb.pixels.rover.exception.CaptchaException;
 import io.pixelsdb.pixels.rover.exception.DemoModeException;
 import io.pixelsdb.pixels.rover.exception.ServiceException;
-import io.pixelsdb.pixels.rover.exception.CaptchaException;
 import io.pixelsdb.pixels.rover.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

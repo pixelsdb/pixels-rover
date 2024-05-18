@@ -15,7 +15,14 @@ Use `db/pixels_rover.sql` to create tables in `pixels_rover`
 Adjust the configuration in the `application.properties` file
 
 ```yaml
-spring.datasource.username=pixels # mysql_username
-spring.datasource.password=password # mysql_password
-server.port=8081 # pixels_rover port
+# mysql username
+spring.datasource.username=pixels
+# mysql password
+spring.datasource.password=password
+# pixels_rover port
+server.port=8081
+# text to sql url
+text2sql.url=http://localhost/text2sql
+# pixels server port
+pixels.server.port=18890
 ```

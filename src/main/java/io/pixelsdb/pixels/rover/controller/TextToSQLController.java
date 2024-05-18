@@ -19,6 +19,7 @@ import io.pixelsdb.pixels.rover.constant.RestUrlPath;
 import io.pixelsdb.pixels.rover.rest.request.TextToSQLRequest;
 import io.pixelsdb.pixels.rover.rest.response.TextToSQLResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +35,8 @@ public class TextToSQLController
     private final WebClient webClient;
 
     @Autowired
-    public TextToSQLController(WebClient.Builder webClientBuilder)
+    public TextToSQLController(WebClient.Builder webClientBuilder, @Value("${text2sql.url}") String BASE_URL)
     {
-        String BASE_URL = "http://10.77.110.127:10000";
         this.webClient = webClientBuilder.baseUrl(BASE_URL).build();
     }
 

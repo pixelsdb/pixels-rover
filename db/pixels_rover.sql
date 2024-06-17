@@ -30,6 +30,49 @@ CREATE TABLE IF NOT EXISTS `pixels_rover`.`user` (
     DEFAULT CHARACTER SET = utf8
     COLLATE = utf8_bin;
 
+-- -----------------------------------------------------
+-- Table `pixels_rover`.`sql_statements`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pixels_rover`.`sql_statements` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(36) NOT NULL,
+    `sql_text` TEXT NOT NULL,
+    `is_modified` BOOLEAN DEFAULT FALSE,
+    `is_executed` BOOLEAN DEFAULT FALSE,
+    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC) VISIBLE)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8
+    COLLATE = utf8_bin;
+
+-- -----------------------------------------------------
+-- Table `pixels_rover`.`messages`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pixels_rover`.`messages` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `user_message` TEXT NOT NULL,
+    `user_message_uuid` VARCHAR(36) NOT NULL,
+    `sql_statements_uuid` VARCHAR(36) NOT NULL,
+    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8
+    COLLATE = utf8_bin;
+
+-- -----------------------------------------------------
+-- Table `pixels_rover`.`query_results`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pixels_rover`.`query_results` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `sql_statements_uuid` VARCHAR(36) NOT NULL,
+    `result` TEXT NOT NULL,
+    `result_uuid` VARCHAR(36) NOT NULL,
+    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8
+    COLLATE = utf8_bin;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

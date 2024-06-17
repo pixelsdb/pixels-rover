@@ -236,7 +236,7 @@ function handleConfirmClick() {
     var querySQL = document.getElementById('modal-query-sql').innerText;
     var executionHint = document.getElementById('modal-execution-hint-select').value;
     var limit = document.getElementById('modal-output-rows-input').value || 0;
-    var resultID = executeQuery(querySQL, executionHint, limit);
+    var resultID = executeQuery(modalMessageID, querySQL, executionHint, limit);
 
     // 实现message的click处理，高亮对应resultMessage
     var resultMessage = document.getElementById(resultID);
@@ -371,7 +371,8 @@ function confirmEdit(messageID) {
     var messageEditDiv = systemMessage.querySelector('.message-textarea');
     // 将messageDiv的内容设置成messageEditDiv的内容
     messageDiv.innerHTML = hljs.highlight(codeMirror.getValue(), {language: "sql", ignoreIllegals: true}).value;
-
+    // update sql
+    updateSQLStatement(messageID, codeMirror.getValue());
     showMessage(messageID);
 }
 
@@ -488,6 +489,9 @@ function sendMessage() {
                         systemMessage.className = 'system-message';
                         systemMessage.id = uuid();
 
+                        // save sql and message
+                        saveMessage(systemMessage.id, querySQL, chatInput, userMessageElement.id);
+
                         var avatarImage = document.createElement('img');
                         avatarImage.className = 'avatar-image';
                         avatarImage.src = 'images/logo-ico.png';
@@ -565,7 +569,7 @@ function sendMessage() {
 }
 
 // 发送后端请求，执行查询
-function executeQuery(query, executionHint, outputRows) {
+function executeQuery(modalMessageID, query, executionHint, outputRows) {
     // 构建SubmitQueryRequest对象
     var submitQueryRequest = {
         query: query,
@@ -623,7 +627,7 @@ function executeQuery(query, executionHint, outputRows) {
             //  如果查询成功，继续处理
             if (data.errorCode === 0) {
                 //  显示查询状态
-                updateQueryStatusAndResults(data.traceToken, submitQueryRequest, statusDisplay, resultDisplay);
+                updateQueryStatusAndResults(modalMessageID, resultMessage.id, data.traceToken, submitQueryRequest, statusDisplay, resultDisplay);
             } else {
                 //  如果查询失败，显示错误消息
                 resultDisplay.textContent = 'Error: ' + data.errorMessage;
@@ -638,7 +642,7 @@ function executeQuery(query, executionHint, outputRows) {
 }
 
 // 更新查询状态和结果
-function updateQueryStatusAndResults(traceToken, submitQueryRequest, statusDisplay, resultDisplay) {
+function updateQueryStatusAndResults(modalMessageID, resultMessageUuid, traceToken, submitQueryRequest, statusDisplay, resultDisplay) {
     // 更新查询状态
     updateQueryStatus(traceToken, function (status) {
         // 更新 status 显示
@@ -678,6 +682,7 @@ function updateQueryStatusAndResults(traceToken, submitQueryRequest, statusDispl
             statusDisplay.appendChild(toggleResults);
 
             getQueryResult(traceToken, function (result) {
+                saveQueryResult(modalMessageID, JSON.stringify(result), resultMessageUuid);
                 // 显示查询结果
                 displayQueryResult(result, submitQueryRequest, statusDisplay, resultDisplay);
             });
@@ -908,6 +913,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     });
+
+    // 加载历史对话消息
+
 });
 
 function toggleFullscreen(side) {

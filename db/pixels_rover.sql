@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `pixels_rover`.`query_results` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `sql_statements_uuid` VARCHAR(36) NOT NULL,
     `result` TEXT NOT NULL,
+    `result_limit` BIGINT NOT NULL,
     `result_uuid` VARCHAR(36) NOT NULL,
     `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`))

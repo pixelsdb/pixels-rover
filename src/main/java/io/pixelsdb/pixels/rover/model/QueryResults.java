@@ -17,6 +17,9 @@ public class QueryResults
     @Column(name = "result", nullable = false, columnDefinition = "TEXT")
     private String result;
 
+    @Column(name = "result_limit", nullable = false)
+    private Long resultLimit;
+
     @Column(name = "result_uuid", nullable = false)
     private String resultUuid;
 
@@ -25,10 +28,11 @@ public class QueryResults
 
     public QueryResults() { }
 
-    public QueryResults(String sqlStatementsUuid, String result, String resultUuid, Timestamp createTime)
+    public QueryResults(String sqlStatementsUuid, String result, Long resultLimit, String resultUuid, Timestamp createTime)
     {
         this.sqlStatementsUuid = sqlStatementsUuid;
         this.result = result;
+        this.resultLimit = resultLimit;
         this.resultUuid = resultUuid;
         this.createTime = createTime;
     }
@@ -44,6 +48,10 @@ public class QueryResults
     public String getResult() { return result; }
 
     public void setResult(String result) { this.result = result; }
+
+    public Long getResultLimit() { return resultLimit; }
+
+    public void setResultLimit(Long resultLimit) { this.resultLimit = resultLimit; }
 
     public String getResultUuid() { return resultUuid; }
 

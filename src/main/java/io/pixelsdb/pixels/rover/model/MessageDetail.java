@@ -8,11 +8,13 @@ public class MessageDetail
     private String sqlStatementsUuid;
     private boolean isExecuted;
     private String results;
+    private Long resultsLimit;
     private String resultsUuid;
 
     public MessageDetail() { }
 
-    public MessageDetail(String userMessage, String userMessageUuid, String sqlStatements, String sqlStatementsUuid, boolean isExecuted, String results, String resultsUuid)
+    public MessageDetail(String userMessage, String userMessageUuid, String sqlStatements, String sqlStatementsUuid,
+                         boolean isExecuted, String results, Long resultsLimit, String resultsUuid)
     {
         this.userMessage = userMessage;
         this.userMessageUuid = userMessageUuid;
@@ -20,6 +22,7 @@ public class MessageDetail
         this.sqlStatementsUuid = sqlStatementsUuid;
         this.isExecuted = isExecuted;
         this.results = results;
+        this.resultsLimit = resultsLimit;
         this.resultsUuid = resultsUuid;
     }
 
@@ -46,6 +49,10 @@ public class MessageDetail
     public String getResults() { return results; }
 
     public void setResults(String results) { this.results = results; }
+
+    public Long getResultsLimit() { return resultsLimit; }
+
+    public void setResultsLimit(Long resultsLimit) { this.resultsLimit = resultsLimit; }
 
     public String getResultsUuid() { return resultsUuid; }
 

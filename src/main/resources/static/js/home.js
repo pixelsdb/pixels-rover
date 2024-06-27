@@ -625,7 +625,7 @@ function executeQuery(modalMessageID, query, executionHint, outputRows) {
             //  如果查询成功，继续处理
             if (data.errorCode === 0) {
                 //  显示查询状态
-                updateQueryStatusAndResults(modalMessageID, resultMessage.id, data.traceToken, submitQueryRequest, statusDisplay, resultDisplay);
+                updateQueryStatusAndResults(modalMessageID, resultMessage.id, outputRows, data.traceToken, submitQueryRequest, statusDisplay, resultDisplay);
             } else {
                 //  如果查询失败，显示错误消息
                 resultDisplay.textContent = 'Error: ' + data.errorMessage;
@@ -640,7 +640,7 @@ function executeQuery(modalMessageID, query, executionHint, outputRows) {
 }
 
 // 更新查询状态和结果
-function updateQueryStatusAndResults(modalMessageID, resultMessageUuid, traceToken, submitQueryRequest, statusDisplay, resultDisplay) {
+function updateQueryStatusAndResults(modalMessageID, resultMessageUuid, resultLimit, traceToken, submitQueryRequest, statusDisplay, resultDisplay) {
     // 更新查询状态
     updateQueryStatus(traceToken, function (status) {
         // 更新 status 显示
@@ -680,7 +680,7 @@ function updateQueryStatusAndResults(modalMessageID, resultMessageUuid, traceTok
             statusDisplay.appendChild(toggleResults);
 
             getQueryResult(traceToken, function (result) {
-                saveQueryResult(modalMessageID, JSON.stringify(result), resultMessageUuid);
+                saveQueryResult(modalMessageID, JSON.stringify(result), resultLimit, resultMessageUuid);
                 // 显示查询结果
                 displayQueryResult(result, submitQueryRequest, statusDisplay, resultDisplay);
             });
@@ -792,11 +792,11 @@ function displayQueryResult(result, submitQueryRequest, statusDisplay, resultDis
     }
     resultDisplayContent.appendChild(executionHintDisplay);
 
-    // // 添加 limitRow 信息
-    // var limitRowsDisplay = document.createElement('div')
-    // limitRowsDisplay.className = 'limit-rows-display';
-    // limitRowsDisplay.textContent = 'LimitRows: ' + submitQueryRequest.limitRows;
-    // resultDisplayContent.appendChild(limitRowsDisplay);
+    // 添加 limitRow 信息
+    var limitRowsDisplay = document.createElement('div')
+    limitRowsDisplay.className = 'limit-rows-display';
+    limitRowsDisplay.textContent = 'LimitRows: ' + submitQueryRequest.limitRows;
+    resultDisplayContent.appendChild(limitRowsDisplay);
 
     if(result.errorCode !== 0) {
         // 更新 status 显示
@@ -1130,6 +1130,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             executionHintDisplay.textContent = 'ExecutionHint: Unknown';
                     }
                     resultDisplayContent.appendChild(executionHintDisplay);
+
+                    // 添加 limitRow 信息
+                    var limitRowsDisplay = document.createElement('div')
+                    limitRowsDisplay.className = 'limit-rows-display';
+                    limitRowsDisplay.textContent = 'LimitRows: ' + message.resultsLimit;
+                    resultDisplayContent.appendChild(limitRowsDisplay);
 
                     if(results.errorCode !== 0) {
                         // 更新 status 显示

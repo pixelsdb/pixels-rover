@@ -42,7 +42,7 @@ public class ChatHistoryController
     @PostMapping("/save-query-result")
     public void saveQueryResult(@RequestBody SaveQueryResultRequest request)
     {
-        chatService.saveQueryResult(request.getUuid(), request.getResult(), request.getResultUuid());
+        chatService.saveQueryResult(request.getUuid(), request.getResult(), request.getResultLimit(), request.getResultUuid());
     }
 
     @GetMapping("/get-chat-history")

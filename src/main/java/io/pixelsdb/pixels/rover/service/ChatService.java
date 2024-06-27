@@ -72,7 +72,7 @@ public class ChatService
     }
 
     @Transactional
-    public void saveQueryResult(String uuid, String result, String resultUuid)
+    public void saveQueryResult(String uuid, String result, Long resultLimit, String resultUuid)
     {
         // update sql
         SQLStatements sqlStatements = sqlStatementsRepository.findByUuid(uuid);
@@ -87,6 +87,7 @@ public class ChatService
         QueryResults queryResults = new QueryResults();
         queryResults.setSqlStatementsUuid(uuid);
         queryResults.setResult(result);
+        queryResults.setResultLimit(resultLimit);
         queryResults.setResultUuid(resultUuid);
         queryResults.setCreateTime(new Timestamp(System.currentTimeMillis()));
         queryResultsRepository.save(queryResults);
@@ -104,6 +105,7 @@ public class ChatService
             Boolean isExecuted = false;
             String results = null;
             String resultsUuid = null;
+            Long resultsLimit = null;
             if (sqlStatement.isPresent())
             {
                 isExecuted = sqlStatement.get().getIsExecuted();
@@ -114,11 +116,12 @@ public class ChatService
                 if (queryResults.isPresent())
                 {
                     results = queryResults.get().getResult();
+                    resultsLimit = queryResults.get().getResultLimit();
                     resultsUuid = queryResults.get().getResultUuid();
                 }
             }
             messageDetailList.add(new MessageDetail(message.getUserMessage(), message.getUserMessageUuid(), sqlStatement.get().getSqlText(),
-                    message.getSqlStatementsUuid(), isExecuted, results, resultsUuid
+                    message.getSqlStatementsUuid(), isExecuted, results, resultsLimit, resultsUuid
             ));
         }
         return messageDetailList;

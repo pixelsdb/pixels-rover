@@ -4,6 +4,7 @@ public class SaveQueryResultRequest
 {
     private String uuid;
     private String result;
+    private Long resultLimit;
     private String resultUuid;
 
     public String getUuid() { return uuid; }
@@ -13,6 +14,10 @@ public class SaveQueryResultRequest
     public String getResult() { return result; }
 
     public void setResult(String result) { this.result = result; }
+
+    public Long getResultLimit() { return  resultLimit; }
+
+    public void setResultLimit(Long resultLimit) { this.resultLimit = resultLimit; }
 
     public String getResultUuid() { return resultUuid; }
 

@@ -46,13 +46,13 @@ function saveMessage(uuid, sqlText, userMessage, userMessageUuid)
     });
 }
 
-function saveQueryResult(uuid, result, resultUuid)
+function saveQueryResult(uuid, result, resultLimit, resultUuid)
 {
     $.ajax({
         type: 'POST',
         url: '/api/chat/save-query-result',
         contentType: 'application/json',
-        data: JSON.stringify({"uuid": uuid, "result": result, "resultUuid": resultUuid}),
+        data: JSON.stringify({"uuid": uuid, "result": result, "resultLimit": resultLimit, "resultUuid": resultUuid}),
         success: function (response) {
             console.log("Query result saved successfully.");
         },

@@ -3,14 +3,19 @@ package io.pixelsdb.pixels.rover.service;
 import io.pixelsdb.pixels.rover.mapper.MessageRepository;
 import io.pixelsdb.pixels.rover.mapper.QueryResultsRepository;
 import io.pixelsdb.pixels.rover.mapper.SQLStatementsRepository;
+import io.pixelsdb.pixels.rover.model.MessageDetail;
 import io.pixelsdb.pixels.rover.model.Messages;
 import io.pixelsdb.pixels.rover.model.QueryResults;
 import io.pixelsdb.pixels.rover.model.SQLStatements;
 import jakarta.transaction.Transactional;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChatService
@@ -85,5 +90,35 @@ public class ChatService
         queryResults.setResultUuid(resultUuid);
         queryResults.setCreateTime(new Timestamp(System.currentTimeMillis()));
         queryResultsRepository.save(queryResults);
+    }
+
+    @Transactional
+    public List<MessageDetail> getAllMessageWithDetails()
+    {
+        List<Messages> messages = messageRepository.findAll();
+        List<MessageDetail> messageDetailList = new ArrayList<>();
+
+        for (Messages message : messages)
+        {
+            Optional<SQLStatements> sqlStatement = Optional.ofNullable(sqlStatementsRepository.findByUuid(message.getSqlStatementsUuid()));
+            Boolean isExecuted = false;
+            String results = null;
+            if (sqlStatement.isPresent())
+            {
+                isExecuted = sqlStatement.get().getIsExecuted();
+            }
+            if (isExecuted)
+            {
+                Optional<QueryResults> queryResults = Optional.ofNullable(queryResultsRepository.findBySqlStatementsUuid(message.getSqlStatementsUuid()));
+                if (queryResults.isPresent())
+                {
+                    results = queryResults.get().getResult();
+                }
+            }
+            messageDetailList.add(new MessageDetail(message.getUserMessage(), message.getUserMessageUuid(), sqlStatement.get().getSqlText(),
+                    message.getSqlStatementsUuid(), isExecuted, results
+            ));
+        }
+        return messageDetailList;
     }
 }

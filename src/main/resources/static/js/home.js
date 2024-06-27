@@ -194,8 +194,6 @@ $(document).ready(function() {
     });
 });
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Get the input field
     var chatInput = document.getElementById('chat-input');
@@ -913,9 +911,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     });
-
-    // 加载历史对话消息
-
 });
 
 function toggleFullscreen(side) {
@@ -965,3 +960,117 @@ function toggleFullscreen(side) {
         }
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    $.ajax({
+        type: 'GET',
+        url: '/api/chat/get-chat-history',
+        success: function (response) {
+            console.log(response);
+            // show chat history messages and query results
+            for (let message of response)
+            {
+                // console.log(message.userMessage);
+                // console.log(message.userMessageUuid);
+                // console.log(message.sqlStatements);
+                // console.log(message.sqlStatementsUuid);
+                // console.log(message.results);
+                // console.log(message.isExecuted);
+
+                var chatArea = document.getElementById('chat-area');
+
+                // show user's message
+                var userMessageElement = document.createElement('div');
+                userMessageElement.className = 'user-message';
+                userMessageElement.id = message.userMessageUuid;
+
+                var userAvatarImage = document.createElement('img');
+                userAvatarImage.className = 'avatar-image';
+                userAvatarImage.src = 'images/users/avatar-cat.jpg';
+
+                var userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'message';
+                userMessageDiv.textContent = message.userMessage;
+
+                userMessageElement.appendChild(userAvatarImage);
+                userMessageElement.appendChild(userMessageDiv);
+
+                chatArea.appendChild(userMessageElement);
+
+                // show system's message
+                let querySQL = message.sqlStatements;
+                var hightlightedSQL = hljs.highlight(querySQL, {language: "sql", ignoreIllegals: true}).value;
+
+                var systemMessage = document.createElement("div");
+                systemMessage.className = 'system-message';
+                systemMessage.id = message.sqlStatementsUuid;
+
+                var sysAvatarImage = document.createElement('img');
+                sysAvatarImage.className = 'avatar-image';
+                sysAvatarImage.src = 'images/logo-ico.png';
+                systemMessage.appendChild(sysAvatarImage);
+
+                var sysMessageDiv = document.createElement('div');
+                sysMessageDiv.className = 'message no-select';
+                sysMessageDiv.innerHTML = hightlightedSQL;
+                systemMessage.appendChild(sysMessageDiv);
+
+                if (message.isExecuted == false)
+                {
+                    var sysMessageEditDiv = document.createElement('textarea');
+                    sysMessageEditDiv.className = 'message-textarea';
+                    sysMessageEditDiv.spellcheck = false;
+                    sysMessageEditDiv.style.display = 'none';
+                    systemMessage.appendChild(sysMessageEditDiv);
+
+                    var sysIconContainer = document.createElement('div');
+                    sysIconContainer.className = 'icon-container';
+
+                    var sysEditIcon = document.createElement('img');
+                    sysEditIcon.src = 'images/edit.svg';
+                    sysEditIcon.alt = 'Edit';
+                    sysEditIcon.className = 'icon';
+                    sysEditIcon.addEventListener('click', function (event) {
+                        editQuery(message.sqlStatementsUuid);
+                    });
+                    sysIconContainer.appendChild(sysEditIcon);
+
+                    var sysExecuteIcon = document.createElement('img');
+                    sysExecuteIcon.src = 'images/execute.svg';
+                    sysExecuteIcon.alt = 'Execute';
+                    sysExecuteIcon.className = 'icon';
+                    sysExecuteIcon.addEventListener('click', function(event) {
+                        sendQuery(message.sqlStatementsUuid);
+                    });
+                    sysIconContainer.appendChild(sysExecuteIcon);
+
+                    var sysCancelIcon = document.createElement('img');
+                    sysCancelIcon.src = 'images/cancel.svg';
+                    sysCancelIcon.alt = 'Cancel';
+                    sysCancelIcon.className = 'icon';
+                    sysCancelIcon.addEventListener('click', function (event) {
+                        cancelEdit(message.sqlStatementsUuid);
+                    });
+                    sysCancelIcon.style.display = 'none';
+                    sysIconContainer.appendChild(sysCancelIcon);
+
+                    var sysConfirmIcon = document.createElement('img');
+                    sysConfirmIcon.src = 'images/confirm.svg';
+                    sysConfirmIcon.alt = 'Confirm';
+                    sysConfirmIcon.className = 'icon';
+                    sysConfirmIcon.addEventListener('click', function (event) {
+                        confirmEdit(message.sqlStatementsUuid);
+                    })
+                    sysConfirmIcon.style.display = 'none';
+                    sysIconContainer.appendChild(sysConfirmIcon);
+                    systemMessage.appendChild(sysIconContainer);
+                }
+                chatArea.appendChild(systemMessage);
+            }
+            chatAreaScrollToBottom();
+        },
+        error: function (error) {
+            console.log("Error load history message ", error);
+        }
+    });
+});

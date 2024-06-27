@@ -1,16 +1,18 @@
 package io.pixelsdb.pixels.rover.controller;
 
+import io.pixelsdb.pixels.rover.model.MessageDetail;
+import io.pixelsdb.pixels.rover.model.Messages;
 import io.pixelsdb.pixels.rover.rest.request.SaveMessageRequest;
 import io.pixelsdb.pixels.rover.rest.request.SaveQueryResultRequest;
 import io.pixelsdb.pixels.rover.rest.request.SaveSQLRequest;
 import io.pixelsdb.pixels.rover.rest.request.UpdateSQLRequest;
 import io.pixelsdb.pixels.rover.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -41,5 +43,12 @@ public class ChatHistoryController
     public void saveQueryResult(@RequestBody SaveQueryResultRequest request)
     {
         chatService.saveQueryResult(request.getUuid(), request.getResult(), request.getResultUuid());
+    }
+
+    @GetMapping("/get-chat-history")
+    public ResponseEntity<List<MessageDetail>> getAllMessagesWithDetails()
+    {
+        List<MessageDetail> detailList = chatService.getAllMessageWithDetails();
+        return ResponseEntity.ok(detailList);
     }
 }

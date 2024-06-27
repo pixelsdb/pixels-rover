@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface QueryResultsRepository extends JpaRepository<QueryResults, Long>
 {
     QueryResults findById(long id);
+    QueryResults findBySqlStatementsUuid(String uuid);
 }

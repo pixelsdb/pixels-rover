@@ -792,11 +792,11 @@ function displayQueryResult(result, submitQueryRequest, statusDisplay, resultDis
     }
     resultDisplayContent.appendChild(executionHintDisplay);
 
-    // 添加 limitRow 信息
-    var limitRowsDisplay = document.createElement('div')
-    limitRowsDisplay.className = 'limit-rows-display';
-    limitRowsDisplay.textContent = 'LimitRows: ' + submitQueryRequest.limitRows;
-    resultDisplayContent.appendChild(limitRowsDisplay);
+    // // 添加 limitRow 信息
+    // var limitRowsDisplay = document.createElement('div')
+    // limitRowsDisplay.className = 'limit-rows-display';
+    // limitRowsDisplay.textContent = 'LimitRows: ' + submitQueryRequest.limitRows;
+    // resultDisplayContent.appendChild(limitRowsDisplay);
 
     if(result.errorCode !== 0) {
         // 更新 status 显示
@@ -966,17 +966,9 @@ document.addEventListener('DOMContentLoaded', function () {
         type: 'GET',
         url: '/api/chat/get-chat-history',
         success: function (response) {
-            console.log(response);
             // show chat history messages and query results
             for (let message of response)
             {
-                // console.log(message.userMessage);
-                // console.log(message.userMessageUuid);
-                // console.log(message.sqlStatements);
-                // console.log(message.sqlStatementsUuid);
-                // console.log(message.results);
-                // console.log(message.isExecuted);
-
                 var chatArea = document.getElementById('chat-area');
 
                 // show user's message
@@ -1015,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sysMessageDiv.innerHTML = hightlightedSQL;
                 systemMessage.appendChild(sysMessageDiv);
 
-                if (message.isExecuted == false)
+                if (message.isExecuted == false) // show edit, execute, cancel and confirm button
                 {
                     var sysMessageEditDiv = document.createElement('textarea');
                     sysMessageEditDiv.className = 'message-textarea';
@@ -1064,6 +1056,159 @@ document.addEventListener('DOMContentLoaded', function () {
                     sysConfirmIcon.style.display = 'none';
                     sysIconContainer.appendChild(sysConfirmIcon);
                     systemMessage.appendChild(sysIconContainer);
+                }
+                else // show query results
+                {
+                    var resultMessage = document.createElement('div');
+                    resultMessage.className = 'result-message';
+                    resultMessage.id = message.resultsUuid;
+
+                    const results = JSON.parse(message.results);
+
+                    switch (results.executionHint.toLowerCase())
+                    {
+                        case 'best_of_effort':
+                            resultMessage.style.backgroundColor = '#f3f9e8';
+                            break;
+                        case 'relaxed':
+                            resultMessage.style.backgroundColor = '#f9f0e8';
+                            break;
+                        case 'immediate':
+                            resultMessage.style.backgroundColor = '#f9e8e8';
+                            break;
+                        default:
+                            resultMessage.style.backgroundColor= '#e6f7ff'; // 默认颜色
+                    }
+
+                    //  创建状态显示区域
+                    var statusDisplay = document.createElement('div');
+                    statusDisplay.className = 'query-status no-select';
+                    statusDisplay.innerHTML = 'Query Status: <span class="finished">FINISHED</span>';
+                    resultMessage.appendChild(statusDisplay);
+
+                    // 添加折叠按钮
+                    var toggleResults = document.createElement('span');
+                    toggleResults.className = 'toggle-results';
+                    toggleResults.addEventListener('click', function () {
+                        if (resultDisplay.style.display === 'none') {
+                            resultDisplay.style.display = 'block';
+                            toggleResults.classList.add('expanded');
+                        } else {
+                            resultDisplay.style.display = 'none';
+                            toggleResults.classList.remove('expanded');
+                        }
+                    });
+                    statusDisplay.appendChild(toggleResults);
+
+                    //  创建结果显示区域
+                    var resultDisplay = document.createElement('div');
+                    resultDisplay.className = 'query-results';
+                    resultDisplay.style.display = 'none'; //  默认隐藏结果
+
+                    // 添加 query 信息
+                    var resultDisplayContent = document.createElement('div');
+                    var queryDisplay = document.createElement('div');
+                    queryDisplay.className = 'query-display';
+                    queryDisplay.innerHTML = 'Query: ' + hightlightedSQL;
+                    resultDisplayContent.appendChild(queryDisplay);
+
+                    // 添加 executionHint 信息
+                    var executionHintDisplay = document.createElement('div');
+                    executionHintDisplay.className = 'execution-hint-display';
+                    switch (results.executionHint.toLowerCase())
+                    {
+                        case 'best_of_effort':
+                            executionHintDisplay.textContent = 'ExecutionHint: Best-of-effort';
+                            break;
+                        case 'relaxed':
+                            executionHintDisplay.textContent = 'ExecutionHint: Relaxed';
+                            break;
+                        case 'immediate':
+                            executionHintDisplay.textContent = 'ExecutionHint: Immediate';
+                            break;
+                        default:
+                            executionHintDisplay.textContent = 'ExecutionHint: Unknown';
+                    }
+                    resultDisplayContent.appendChild(executionHintDisplay);
+
+                    if(results.errorCode !== 0) {
+                        // 更新 status 显示
+                        var statusSpan = statusDisplay.querySelector('span:first-of-type');
+                        statusSpan.textContent = 'FAILED';
+                        statusSpan.classList.remove('finished');
+                        statusSpan.classList.add('failed');
+                        resultDisplayContent.textContent = result.errorMessage;
+                        resultDisplay.appendChild(resultDisplayContent);
+                        return;
+                    }
+
+                    var columnNames = results.columnNames;
+                    var rows  = results.rows;
+                    var columnPrintSizes = results.columnPrintSizes;
+
+                    // 创建表格元素
+                    var table = document.createElement('table');
+                    table.className = 'result-table result-table-bordered';
+
+                    // 创建表头
+                    var thead = document.createElement('thead');
+                    var headerRow = document.createElement('tr');
+
+                    columnNames.forEach(function (columnName, index) {
+                        var columnPrintSize = Math.max(columnPrintSizes[index], columnName.length);
+                        var th = document.createElement('th');
+                        th.textContent = columnName;
+                        th.style.width = columnPrintSize + 3 + 'ch'; // 增加固定长度
+                        headerRow.appendChild(th);
+                    });
+
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+
+                    // 创建表体
+                    var tbody = document.createElement('tbody');
+
+                    rows.forEach(function (row) {
+                        if(row === undefined || row === null) {
+                            //throw new Error("null row");
+                            return;
+                        }
+                        var tr = document.createElement('tr');
+
+                        columnNames.forEach(function (_, index) {
+                            var td = document.createElement('td');
+                            var value = row[index];
+                            if (value === undefined || value === null) {
+                                value = 'null';
+                            }
+                            td.textContent = value;
+                            tr.appendChild(td);
+                        });
+
+                        tbody.appendChild(tr);
+                    });
+
+                    table.appendChild(tbody);
+                    resultDisplayContent.appendChild(table);
+
+                    // 添加costCents信息
+                    var costDisplay = document.createElement('div');
+                    costDisplay.className = 'cost-display';
+                    costDisplay.innerHTML = `
+                        <span class="pending-ms">pending: ${results.pendingTimeMs} ms</span>
+                        <span class="execution-ms">execution: ${results.executionTimeMs} ms</span>
+                        <span class="cost-cents">cost: ${results.billedCents} cents</span>
+                    `;
+                    resultDisplayContent.appendChild(costDisplay);
+
+                    resultDisplay.appendChild(resultDisplayContent);
+
+                    resultMessage.appendChild(resultDisplay);
+
+                    //  将新的结果显示区域添加到聊天区域
+                    document.getElementById('status-area').appendChild(resultMessage);
+
+                    queryStatusScrollToBottom();
                 }
                 chatArea.appendChild(systemMessage);
             }

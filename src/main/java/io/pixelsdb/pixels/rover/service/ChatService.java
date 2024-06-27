@@ -103,6 +103,7 @@ public class ChatService
             Optional<SQLStatements> sqlStatement = Optional.ofNullable(sqlStatementsRepository.findByUuid(message.getSqlStatementsUuid()));
             Boolean isExecuted = false;
             String results = null;
+            String resultsUuid = null;
             if (sqlStatement.isPresent())
             {
                 isExecuted = sqlStatement.get().getIsExecuted();
@@ -113,10 +114,11 @@ public class ChatService
                 if (queryResults.isPresent())
                 {
                     results = queryResults.get().getResult();
+                    resultsUuid = queryResults.get().getResultUuid();
                 }
             }
             messageDetailList.add(new MessageDetail(message.getUserMessage(), message.getUserMessageUuid(), sqlStatement.get().getSqlText(),
-                    message.getSqlStatementsUuid(), isExecuted, results
+                    message.getSqlStatementsUuid(), isExecuted, results, resultsUuid
             ));
         }
         return messageDetailList;

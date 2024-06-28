@@ -1214,22 +1214,31 @@ document.addEventListener('DOMContentLoaded', function () {
                     //  将新的结果显示区域添加到聊天区域
                     document.getElementById('status-area').appendChild(resultMessage);
 
+                    let curSysMessageDiv = sysMessageDiv;
+                    let curResultMessage = resultMessage;
+                    // 实现message的click处理，高亮对应resultMessage
+                    curSysMessageDiv.addEventListener('dblclick', function () {
+                        // 移除.highlight类，然后再添加回来，以重新触发动画
+                        curResultMessage.classList.remove('highlighted');
+                        setTimeout(function() {
+                            curResultMessage.classList.add('highlighted');
+                        }, 0); // 使用setTimeout确保在下一个事件循环中添加类
+                    });
+
+                    // 实现result的dblclcik处理，高亮对应systemMessage.message
+                    curResultMessage.addEventListener('dblclick', function (event) {
+                        // 移除.highlight类，然后再添加回来，以重新触发动画
+                        curSysMessageDiv.classList.remove('highlighted');
+                        setTimeout(function() {
+                            curSysMessageDiv.classList.add('highlighted');
+                        }, 0); // 使用setTimeout确保在下一个事件循环中添加类
+                    });
+
                     queryStatusScrollToBottom();
                 }
                 chatArea.appendChild(systemMessage);
             }
             chatAreaScrollToBottom();
-        },
-        error: function (error) {
-            console.log("Error load history message ", error);
-        }
-    });
-
-    $.ajax({
-        type: 'GET',
-        url: '/api/chat/get-query-results',
-        success: function (response) {
-            console.log(response);
         },
         error: function (error) {
             console.log("Error load history message ", error);

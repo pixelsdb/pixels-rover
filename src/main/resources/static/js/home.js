@@ -1224,4 +1224,15 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log("Error load history message ", error);
         }
     });
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/chat/get-query-results',
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (error) {
+            console.log("Error load history message ", error);
+        }
+    });
 });

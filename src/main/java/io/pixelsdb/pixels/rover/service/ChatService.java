@@ -10,8 +10,10 @@ import io.pixelsdb.pixels.rover.model.SQLStatements;
 import jakarta.transaction.Transactional;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,5 +127,21 @@ public class ChatService
             ));
         }
         return messageDetailList;
+    }
+
+    @Transactional
+    public List<QueryResults> getAllQueryResultsOrderByTimestamp()
+    {
+        Sort sort = Sort.by(Sort.Direction.ASC, "createTime");
+        List<QueryResults> queryResults = queryResultsRepository.findAll(sort);
+        return queryResults;
+    }
+
+    @Transactional
+    public List<QueryResults> getQueryResultsBetween(Timestamp start, Timestamp end)
+    {
+        Sort sort = Sort.by(Sort.Direction.ASC, "createTime");
+        List<QueryResults> queryResultsList = queryResultsRepository.findByCreateTimeBetween(start, end, sort);
+        return queryResultsList;
     }
 }

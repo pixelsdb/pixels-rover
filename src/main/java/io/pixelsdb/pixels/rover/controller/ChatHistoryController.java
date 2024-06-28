@@ -2,10 +2,8 @@ package io.pixelsdb.pixels.rover.controller;
 
 import io.pixelsdb.pixels.rover.model.MessageDetail;
 import io.pixelsdb.pixels.rover.model.Messages;
-import io.pixelsdb.pixels.rover.rest.request.SaveMessageRequest;
-import io.pixelsdb.pixels.rover.rest.request.SaveQueryResultRequest;
-import io.pixelsdb.pixels.rover.rest.request.SaveSQLRequest;
-import io.pixelsdb.pixels.rover.rest.request.UpdateSQLRequest;
+import io.pixelsdb.pixels.rover.model.QueryResults;
+import io.pixelsdb.pixels.rover.rest.request.*;
 import io.pixelsdb.pixels.rover.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +48,19 @@ public class ChatHistoryController
     {
         List<MessageDetail> detailList = chatService.getAllMessageWithDetails();
         return ResponseEntity.ok(detailList);
+    }
+
+    @GetMapping("/get-query-results")
+    public ResponseEntity<List<QueryResults>> getAllResultsOrderByTimeStamp()
+    {
+        List<QueryResults> queryResultsList = chatService.getAllQueryResultsOrderByTimestamp();
+        return  ResponseEntity.ok(queryResultsList);
+    }
+
+    @PostMapping("/get-query-results-between")
+    public ResponseEntity<List<QueryResults>> getResultsBetweenTimeStamp(@RequestBody GetQueryResultsBetweenRequest request)
+    {
+        List<QueryResults> queryResults = chatService.getQueryResultsBetween(request.getStartTime(), request.getEndTime());
+        return ResponseEntity.ok(queryResults);
     }
 }

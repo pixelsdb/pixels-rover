@@ -261,12 +261,12 @@ function handleConfirmClick() {
     var iconContainer = systemMessage.querySelector('.icon-container');
     iconContainer.style.display = 'none';
 
-    document.getElementById('modal').style.display = "none";
+    document.getElementById('query-modal').style.display = "none";
 }
 
 // 定义modal中关闭图标的事件处理函数
 function handleCloseClick() {
-    document.getElementById('modal').style.display = "none";
+    document.getElementById('query-modal').style.display = "none";
 }
 
 function sendQuery(messageID) {
@@ -283,7 +283,7 @@ function sendQuery(messageID) {
     modalMessageID = messageID;
 
     // 显示模态窗口
-    document.getElementById('modal').style.display = "block";
+    document.getElementById('query-modal').style.display = "block";
     // 填充查询SQL
     document.getElementById('modal-query-sql').innerHTML = hljs.highlight(queryInput, {language: "sql", ignoreIllegals: true}).value;
 

@@ -1025,7 +1025,7 @@ input.error {
     background-color: rgba(0,0,0,0.4);
 }
 
-.modal .modal-content {
+#query-modal .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
@@ -1033,7 +1033,7 @@ input.error {
     width: 360px;
 }
 
-.modal .options-bar {
+#query-modal .options-bar {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1042,8 +1042,8 @@ input.error {
     margin-top: 20px;
 }
 
-.modal .close,
-.modal .confirm
+#query-modal .close,
+#query-modal .confirm
 {
     color: #aaa;
     float: right;
@@ -1053,16 +1053,16 @@ input.error {
     margin-right: -10px;
 }
 
-.modal .close:hover,
-.modal .close:focus,
-.modal .confirm:hover,
-.modal .confirm.focus {
+#query-modal .close:hover,
+#query-modal .close:focus,
+#query-modal .confirm:hover,
+#query-modal .confirm.focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
 
-.modal .icon {
+#query-modal .icon {
     width: 28px;
     height: 28px;
     background-color: transparent;
@@ -1070,12 +1070,12 @@ input.error {
     border-radius: 35%;
 }
 
-.modal .icon:hover {
+#query-modal .icon:hover {
     background-color: #d3d3d3;
     cursor: pointer;
 }
 
-.modal #modal-execution-hint-select {
+#query-modal #modal-execution-hint-select {
     width: 120px;
     height: 30px;
     border: 1px solid #ccc;
@@ -1084,7 +1084,7 @@ input.error {
     text-align: center;
 }
 
-.modal #modal-output-rows-input {
+#query-modal #modal-output-rows-input {
     -moz-appearance: textfield;
     appearance: textfield;
     height: 30px;
@@ -1096,8 +1096,8 @@ input.error {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.modal #modal-output-rows-input::-webkit-inner-spin-button,
-.modal #modal-output-rows-input::-webkit-outer-spin-button {
+#query-modal #modal-output-rows-input::-webkit-inner-spin-button,
+#query-modal #modal-output-rows-input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
@@ -1155,8 +1155,8 @@ input.error {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.modal #modal-execution-hint-select:focus,
-.modal #modal-output-rows-input:focus,
+#query-modal #modal-execution-hint-select:focus,
+#query-modal #modal-output-rows-input:focus,
 #schema-select:focus,
 #chat-input:focus {
     border-color: #33cabb;

@@ -15,15 +15,41 @@
  */
 package io.pixelsdb.pixels.rover;
 
+import io.pixelsdb.pixels.rover.service.ChatService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import io.pixelsdb.pixels.rover.model.SQLStatements;
+import io.pixelsdb.pixels.rover.model.Messages;
+import io.pixelsdb.pixels.rover.model.QueryResults;
+import io.pixelsdb.pixels.rover.mapper.SQLStatementsRepository;
+import io.pixelsdb.pixels.rover.mapper.MessageRepository;
+import io.pixelsdb.pixels.rover.mapper.QueryResultsRepository;
 
 @SpringBootTest
 class PixelsRoverApplicationTests
 {
+	@Autowired
+	private ChatService chatService;
 
 	@Test
-	void contextLoads()
+	void SQLStatementsTest()
 	{
+		String uuid = "xxxxxxxx-xx11-4xxx-yxxx-xxxxxxxxxxxx";
+		String sqlText = "select * from nation";
+		chatService.saveSQLStatement(uuid, sqlText);
+	}
+
+	@Test
+	void MessageTest()
+	{
+
+	}
+
+	@Test
+	void ResultTest()
+	{
+
 	}
 }

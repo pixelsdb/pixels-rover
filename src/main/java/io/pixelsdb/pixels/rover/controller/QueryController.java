@@ -15,11 +15,16 @@
  */
 package io.pixelsdb.pixels.rover.controller;
 
-import io.pixelsdb.pixels.common.server.rest.request.*;
-import io.pixelsdb.pixels.common.server.rest.response.*;
+import io.pixelsdb.pixels.common.server.rest.request.GetQueryResultRequest;
+import io.pixelsdb.pixels.common.server.rest.request.GetQueryStatusRequest;
+import io.pixelsdb.pixels.common.server.rest.request.SubmitQueryRequest;
+import io.pixelsdb.pixels.common.server.rest.response.GetQueryResultResponse;
+import io.pixelsdb.pixels.common.server.rest.response.GetQueryStatusResponse;
+import io.pixelsdb.pixels.common.server.rest.response.SubmitQueryResponse;
 import io.pixelsdb.pixels.common.utils.ConfigFactory;
 import io.pixelsdb.pixels.rover.constant.RestUrlPath;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,11 +40,10 @@ public class QueryController
     private final WebClient webClient;
 
     @Autowired
-    public QueryController(WebClient.Builder webClientBuilder)
+    public QueryController(WebClient.Builder webClientBuilder, @Value("${pixels.server.port}") int port)
     {
         String host = ConfigFactory.Instance().getProperty("metadata.server.host");
         assert (host != null);
-        int port = 18890;
         String BASE_URL = "http://" + host + ":" + port;
         this.webClient = webClientBuilder.baseUrl(BASE_URL).build();
     }

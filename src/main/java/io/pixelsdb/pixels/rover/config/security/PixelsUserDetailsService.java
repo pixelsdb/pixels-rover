@@ -15,8 +15,8 @@
  */
 package io.pixelsdb.pixels.rover.config.security;
 
-import io.pixelsdb.pixels.rover.model.User;
 import io.pixelsdb.pixels.rover.mapper.UserRepository;
+import io.pixelsdb.pixels.rover.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

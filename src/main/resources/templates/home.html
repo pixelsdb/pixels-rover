@@ -19,6 +19,7 @@
     <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-multitabs/multitabs.js"></script>
     <script type="text/javascript" src="js/home.js"></script>
+    <script type="text/javascript" src="js/chat-history.js"></script>
     <!-- codeMirror -->
     <script src="js/codemirror/codemirror.js"></script>
     <link rel="stylesheet" href="js/codemirror/codemirror.css">
@@ -137,8 +138,8 @@
                         <button class="btn btn-block btn-primary" id="send-message-button" onclick="sendMessage()">Send</button>
                     </div>
 
-                    <!-- 模态窗口 -->
-                    <div id="modal" class="modal">
+                    <!-- query 模态窗口 -->
+                    <div id="query-modal" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
                             <p id="modal-query-sql"></p>
@@ -152,6 +153,12 @@
                                 <img src="images/execute.svg" alt="Confirm" id="modal-confirm-icon" class="icon">
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- report 模态窗口 -->
+                <div id="report-modal" class="modal">
+                    <div class="modal-content">
                     </div>
                 </div>
 

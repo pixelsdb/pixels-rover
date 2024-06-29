@@ -194,8 +194,6 @@ $(document).ready(function() {
     });
 });
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Get the input field
     var chatInput = document.getElementById('chat-input');
@@ -236,7 +234,7 @@ function handleConfirmClick() {
     var querySQL = document.getElementById('modal-query-sql').innerText;
     var executionHint = document.getElementById('modal-execution-hint-select').value;
     var limit = document.getElementById('modal-output-rows-input').value || 0;
-    var resultID = executeQuery(querySQL, executionHint, limit);
+    var resultID = executeQuery(modalMessageID, querySQL, executionHint, limit);
 
     // 实现message的click处理，高亮对应resultMessage
     var resultMessage = document.getElementById(resultID);
@@ -263,12 +261,12 @@ function handleConfirmClick() {
     var iconContainer = systemMessage.querySelector('.icon-container');
     iconContainer.style.display = 'none';
 
-    document.getElementById('modal').style.display = "none";
+    document.getElementById('query-modal').style.display = "none";
 }
 
 // 定义modal中关闭图标的事件处理函数
 function handleCloseClick() {
-    document.getElementById('modal').style.display = "none";
+    document.getElementById('query-modal').style.display = "none";
 }
 
 function sendQuery(messageID) {
@@ -285,7 +283,7 @@ function sendQuery(messageID) {
     modalMessageID = messageID;
 
     // 显示模态窗口
-    document.getElementById('modal').style.display = "block";
+    document.getElementById('query-modal').style.display = "block";
     // 填充查询SQL
     document.getElementById('modal-query-sql').innerHTML = hljs.highlight(queryInput, {language: "sql", ignoreIllegals: true}).value;
 
@@ -371,7 +369,8 @@ function confirmEdit(messageID) {
     var messageEditDiv = systemMessage.querySelector('.message-textarea');
     // 将messageDiv的内容设置成messageEditDiv的内容
     messageDiv.innerHTML = hljs.highlight(codeMirror.getValue(), {language: "sql", ignoreIllegals: true}).value;
-
+    // update sql
+    updateSQLStatement(messageID, codeMirror.getValue());
     showMessage(messageID);
 }
 
@@ -488,6 +487,9 @@ function sendMessage() {
                         systemMessage.className = 'system-message';
                         systemMessage.id = uuid();
 
+                        // save sql and message
+                        saveMessage(systemMessage.id, querySQL, chatInput, userMessageElement.id);
+
                         var avatarImage = document.createElement('img');
                         avatarImage.className = 'avatar-image';
                         avatarImage.src = 'images/logo-ico.png';
@@ -565,7 +567,7 @@ function sendMessage() {
 }
 
 // 发送后端请求，执行查询
-function executeQuery(query, executionHint, outputRows) {
+function executeQuery(modalMessageID, query, executionHint, outputRows) {
     // 构建SubmitQueryRequest对象
     var submitQueryRequest = {
         query: query,
@@ -623,7 +625,7 @@ function executeQuery(query, executionHint, outputRows) {
             //  如果查询成功，继续处理
             if (data.errorCode === 0) {
                 //  显示查询状态
-                updateQueryStatusAndResults(data.traceToken, submitQueryRequest, statusDisplay, resultDisplay);
+                updateQueryStatusAndResults(modalMessageID, resultMessage.id, outputRows, data.traceToken, submitQueryRequest, statusDisplay, resultDisplay);
             } else {
                 //  如果查询失败，显示错误消息
                 resultDisplay.textContent = 'Error: ' + data.errorMessage;
@@ -638,7 +640,7 @@ function executeQuery(query, executionHint, outputRows) {
 }
 
 // 更新查询状态和结果
-function updateQueryStatusAndResults(traceToken, submitQueryRequest, statusDisplay, resultDisplay) {
+function updateQueryStatusAndResults(modalMessageID, resultMessageUuid, resultLimit, traceToken, submitQueryRequest, statusDisplay, resultDisplay) {
     // 更新查询状态
     updateQueryStatus(traceToken, function (status) {
         // 更新 status 显示
@@ -678,6 +680,7 @@ function updateQueryStatusAndResults(traceToken, submitQueryRequest, statusDispl
             statusDisplay.appendChild(toggleResults);
 
             getQueryResult(traceToken, function (result) {
+                saveQueryResult(modalMessageID, JSON.stringify(result), resultLimit, resultMessageUuid);
                 // 显示查询结果
                 displayQueryResult(result, submitQueryRequest, statusDisplay, resultDisplay);
             });
@@ -957,3 +960,288 @@ function toggleFullscreen(side) {
         }
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    $.ajax({
+        type: 'GET',
+        url: '/api/chat/get-chat-history',
+        success: function (response) {
+            // show chat history messages and query results
+            for (let message of response)
+            {
+                var chatArea = document.getElementById('chat-area');
+
+                // show user's message
+                var userMessageElement = document.createElement('div');
+                userMessageElement.className = 'user-message';
+                userMessageElement.id = message.userMessageUuid;
+
+                var userAvatarImage = document.createElement('img');
+                userAvatarImage.className = 'avatar-image';
+                userAvatarImage.src = 'images/users/avatar-cat.jpg';
+
+                var userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'message';
+                userMessageDiv.textContent = message.userMessage;
+
+                userMessageElement.appendChild(userAvatarImage);
+                userMessageElement.appendChild(userMessageDiv);
+
+                chatArea.appendChild(userMessageElement);
+
+                // show system's message
+                let querySQL = message.sqlStatements;
+                var hightlightedSQL = hljs.highlight(querySQL, {language: "sql", ignoreIllegals: true}).value;
+
+                var systemMessage = document.createElement("div");
+                systemMessage.className = 'system-message';
+                systemMessage.id = message.sqlStatementsUuid;
+
+                var sysAvatarImage = document.createElement('img');
+                sysAvatarImage.className = 'avatar-image';
+                sysAvatarImage.src = 'images/logo-ico.png';
+                systemMessage.appendChild(sysAvatarImage);
+
+                var sysMessageDiv = document.createElement('div');
+                sysMessageDiv.className = 'message no-select';
+                sysMessageDiv.innerHTML = hightlightedSQL;
+                systemMessage.appendChild(sysMessageDiv);
+
+                if (message.isExecuted == false) // show edit, execute, cancel and confirm button
+                {
+                    var sysMessageEditDiv = document.createElement('textarea');
+                    sysMessageEditDiv.className = 'message-textarea';
+                    sysMessageEditDiv.spellcheck = false;
+                    sysMessageEditDiv.style.display = 'none';
+                    systemMessage.appendChild(sysMessageEditDiv);
+
+                    var sysIconContainer = document.createElement('div');
+                    sysIconContainer.className = 'icon-container';
+
+                    var sysEditIcon = document.createElement('img');
+                    sysEditIcon.src = 'images/edit.svg';
+                    sysEditIcon.alt = 'Edit';
+                    sysEditIcon.className = 'icon';
+                    sysEditIcon.addEventListener('click', function (event) {
+                        editQuery(message.sqlStatementsUuid);
+                    });
+                    sysIconContainer.appendChild(sysEditIcon);
+
+                    var sysExecuteIcon = document.createElement('img');
+                    sysExecuteIcon.src = 'images/execute.svg';
+                    sysExecuteIcon.alt = 'Execute';
+                    sysExecuteIcon.className = 'icon';
+                    sysExecuteIcon.addEventListener('click', function(event) {
+                        sendQuery(message.sqlStatementsUuid);
+                    });
+                    sysIconContainer.appendChild(sysExecuteIcon);
+
+                    var sysCancelIcon = document.createElement('img');
+                    sysCancelIcon.src = 'images/cancel.svg';
+                    sysCancelIcon.alt = 'Cancel';
+                    sysCancelIcon.className = 'icon';
+                    sysCancelIcon.addEventListener('click', function (event) {
+                        cancelEdit(message.sqlStatementsUuid);
+                    });
+                    sysCancelIcon.style.display = 'none';
+                    sysIconContainer.appendChild(sysCancelIcon);
+
+                    var sysConfirmIcon = document.createElement('img');
+                    sysConfirmIcon.src = 'images/confirm.svg';
+                    sysConfirmIcon.alt = 'Confirm';
+                    sysConfirmIcon.className = 'icon';
+                    sysConfirmIcon.addEventListener('click', function (event) {
+                        confirmEdit(message.sqlStatementsUuid);
+                    })
+                    sysConfirmIcon.style.display = 'none';
+                    sysIconContainer.appendChild(sysConfirmIcon);
+                    systemMessage.appendChild(sysIconContainer);
+                }
+                else // show query results
+                {
+                    var resultMessage = document.createElement('div');
+                    resultMessage.className = 'result-message';
+                    resultMessage.id = message.resultsUuid;
+
+                    const results = JSON.parse(message.results);
+
+                    switch (results.executionHint.toLowerCase())
+                    {
+                        case 'best_of_effort':
+                            resultMessage.style.backgroundColor = '#f3f9e8';
+                            break;
+                        case 'relaxed':
+                            resultMessage.style.backgroundColor = '#f9f0e8';
+                            break;
+                        case 'immediate':
+                            resultMessage.style.backgroundColor = '#f9e8e8';
+                            break;
+                        default:
+                            resultMessage.style.backgroundColor= '#e6f7ff'; // 默认颜色
+                    }
+
+                    //  创建状态显示区域
+                    var statusDisplay = document.createElement('div');
+                    statusDisplay.className = 'query-status no-select';
+                    statusDisplay.innerHTML = 'Query Status: <span class="finished">FINISHED</span>';
+                    resultMessage.appendChild(statusDisplay);
+
+                    // 添加折叠按钮
+                    var toggleResults = document.createElement('span');
+                    toggleResults.className = 'toggle-results';
+                    toggleResults.addEventListener('click', function () {
+                        if (resultDisplay.style.display === 'none') {
+                            resultDisplay.style.display = 'block';
+                            toggleResults.classList.add('expanded');
+                        } else {
+                            resultDisplay.style.display = 'none';
+                            toggleResults.classList.remove('expanded');
+                        }
+                    });
+                    statusDisplay.appendChild(toggleResults);
+
+                    //  创建结果显示区域
+                    var resultDisplay = document.createElement('div');
+                    resultDisplay.className = 'query-results';
+                    resultDisplay.style.display = 'none'; //  默认隐藏结果
+
+                    // 添加 query 信息
+                    var resultDisplayContent = document.createElement('div');
+                    var queryDisplay = document.createElement('div');
+                    queryDisplay.className = 'query-display';
+                    queryDisplay.innerHTML = 'Query: ' + hightlightedSQL;
+                    resultDisplayContent.appendChild(queryDisplay);
+
+                    // 添加 executionHint 信息
+                    var executionHintDisplay = document.createElement('div');
+                    executionHintDisplay.className = 'execution-hint-display';
+                    switch (results.executionHint.toLowerCase())
+                    {
+                        case 'best_of_effort':
+                            executionHintDisplay.textContent = 'ExecutionHint: Best-of-effort';
+                            break;
+                        case 'relaxed':
+                            executionHintDisplay.textContent = 'ExecutionHint: Relaxed';
+                            break;
+                        case 'immediate':
+                            executionHintDisplay.textContent = 'ExecutionHint: Immediate';
+                            break;
+                        default:
+                            executionHintDisplay.textContent = 'ExecutionHint: Unknown';
+                    }
+                    resultDisplayContent.appendChild(executionHintDisplay);
+
+                    // 添加 limitRow 信息
+                    var limitRowsDisplay = document.createElement('div')
+                    limitRowsDisplay.className = 'limit-rows-display';
+                    limitRowsDisplay.textContent = 'LimitRows: ' + message.resultsLimit;
+                    resultDisplayContent.appendChild(limitRowsDisplay);
+
+                    if(results.errorCode !== 0) {
+                        // 更新 status 显示
+                        var statusSpan = statusDisplay.querySelector('span:first-of-type');
+                        statusSpan.textContent = 'FAILED';
+                        statusSpan.classList.remove('finished');
+                        statusSpan.classList.add('failed');
+                        resultDisplayContent.textContent = result.errorMessage;
+                        resultDisplay.appendChild(resultDisplayContent);
+                        return;
+                    }
+
+                    var columnNames = results.columnNames;
+                    var rows  = results.rows;
+                    var columnPrintSizes = results.columnPrintSizes;
+
+                    // 创建表格元素
+                    var table = document.createElement('table');
+                    table.className = 'result-table result-table-bordered';
+
+                    // 创建表头
+                    var thead = document.createElement('thead');
+                    var headerRow = document.createElement('tr');
+
+                    columnNames.forEach(function (columnName, index) {
+                        var columnPrintSize = Math.max(columnPrintSizes[index], columnName.length);
+                        var th = document.createElement('th');
+                        th.textContent = columnName;
+                        th.style.width = columnPrintSize + 3 + 'ch'; // 增加固定长度
+                        headerRow.appendChild(th);
+                    });
+
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+
+                    // 创建表体
+                    var tbody = document.createElement('tbody');
+
+                    rows.forEach(function (row) {
+                        if(row === undefined || row === null) {
+                            //throw new Error("null row");
+                            return;
+                        }
+                        var tr = document.createElement('tr');
+
+                        columnNames.forEach(function (_, index) {
+                            var td = document.createElement('td');
+                            var value = row[index];
+                            if (value === undefined || value === null) {
+                                value = 'null';
+                            }
+                            td.textContent = value;
+                            tr.appendChild(td);
+                        });
+
+                        tbody.appendChild(tr);
+                    });
+
+                    table.appendChild(tbody);
+                    resultDisplayContent.appendChild(table);
+
+                    // 添加costCents信息
+                    var costDisplay = document.createElement('div');
+                    costDisplay.className = 'cost-display';
+                    costDisplay.innerHTML = `
+                        <span class="pending-ms">pending: ${results.pendingTimeMs} ms</span>
+                        <span class="execution-ms">execution: ${results.executionTimeMs} ms</span>
+                        <span class="cost-cents">cost: ${results.billedCents} cents</span>
+                    `;
+                    resultDisplayContent.appendChild(costDisplay);
+
+                    resultDisplay.appendChild(resultDisplayContent);
+
+                    resultMessage.appendChild(resultDisplay);
+
+                    //  将新的结果显示区域添加到聊天区域
+                    document.getElementById('status-area').appendChild(resultMessage);
+
+                    let curSysMessageDiv = sysMessageDiv;
+                    let curResultMessage = resultMessage;
+                    // 实现message的click处理，高亮对应resultMessage
+                    curSysMessageDiv.addEventListener('dblclick', function () {
+                        // 移除.highlight类，然后再添加回来，以重新触发动画
+                        curResultMessage.classList.remove('highlighted');
+                        setTimeout(function() {
+                            curResultMessage.classList.add('highlighted');
+                        }, 0); // 使用setTimeout确保在下一个事件循环中添加类
+                    });
+
+                    // 实现result的dblclcik处理，高亮对应systemMessage.message
+                    curResultMessage.addEventListener('dblclick', function (event) {
+                        // 移除.highlight类，然后再添加回来，以重新触发动画
+                        curSysMessageDiv.classList.remove('highlighted');
+                        setTimeout(function() {
+                            curSysMessageDiv.classList.add('highlighted');
+                        }, 0); // 使用setTimeout确保在下一个事件循环中添加类
+                    });
+
+                    queryStatusScrollToBottom();
+                }
+                chatArea.appendChild(systemMessage);
+            }
+            chatAreaScrollToBottom();
+        },
+        error: function (error) {
+            console.log("Error load history message ", error);
+        }
+    });
+});

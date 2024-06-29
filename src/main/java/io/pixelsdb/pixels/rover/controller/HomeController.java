@@ -27,8 +27,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 @Controller
-public class HomeController {
-
+public class HomeController
+{
     private final UserRepository userRepository;
 
     public HomeController(UserRepository userRepository) {

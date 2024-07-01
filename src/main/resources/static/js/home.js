@@ -264,8 +264,8 @@ function handleConfirmClick() {
     document.getElementById('query-modal').style.display = "none";
 }
 
-// 定义modal中关闭图标的事件处理函数
-function handleCloseClick() {
+// 定义 query modal 中关闭图标的事件处理函数
+function handleQueryModalCloseClick() {
     document.getElementById('query-modal').style.display = "none";
 }
 
@@ -294,8 +294,8 @@ function sendQuery(messageID) {
 
     // 为关闭按钮添加点击事件监听器
     var closeButton = document.getElementsByClassName('close')[0];
-    closeButton.removeEventListener('click', handleCloseClick);
-    closeButton.addEventListener('click', handleCloseClick);
+    closeButton.removeEventListener('click', handleQueryModalCloseClick);
+    closeButton.addEventListener('click', handleQueryModalCloseClick);
 }
 
 function hideMessage(messageID) {

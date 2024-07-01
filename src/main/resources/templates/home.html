@@ -18,8 +18,10 @@
     <script type="text/javascript" src="js/highlight/highlight.min.js"></script>
     <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-multitabs/multitabs.js"></script>
+    <script type="text/javascript" src="js/d3.v7.js"></script>
     <script type="text/javascript" src="js/home.js"></script>
     <script type="text/javascript" src="js/chat-history.js"></script>
+    <script type="text/javascript" src="js/report.js"></script>
     <!-- codeMirror -->
     <script src="js/codemirror/codemirror.js"></script>
     <link rel="stylesheet" href="js/codemirror/codemirror.css">
@@ -47,21 +49,17 @@
                             <ul class="nav nav-subnav" id="schemaMenu">
                             </ul>
                         </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)">
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" onclick="showReport()">
                                 <img src="images/report.svg" alt="Report Icon">
                                 <span>Reports</span>
                             </a>
-                            <ul class="nav nav-subnav">
-                            </ul>
                         </li>
-                        <li class="nav-item nav-item-has-subnav">
+                        <li class="nav-item">
                             <a href="javascript:void(0)">
                                 <img src="images/setting.svg" alt="Setting Icon">
                                 <span>Settings</span>
                             </a>
-                            <ul class="nav nav-subnav">
-                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -159,6 +157,18 @@
                 <!-- report 模态窗口 -->
                 <div id="report-modal" class="modal">
                     <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12" id="overall-chart">
+                                <h3 class="text-center">Overall Chart</h3>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6" id="time-chart">
+                                <h3 class="text-center">Time Chart</h3>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6" id="cost-chart">
+                                <h3 class="text-center">Cost Chart</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

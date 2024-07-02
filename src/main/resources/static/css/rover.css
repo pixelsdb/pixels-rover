@@ -1211,3 +1211,26 @@ input.error {
 .toggle-results.expanded::before {
     transform: translate(-50%, -50%) rotate(135deg); /*  展开状态为向下 */
 }
+
+.chart-title {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#report-modal #overall-chart {
+    margin-bottom: 10px;
+}
+
+.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 2px;
+    font: 12px sans-serif;
+    background-color: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+    word-wrap: break-word;
+}

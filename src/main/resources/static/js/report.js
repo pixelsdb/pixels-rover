@@ -23,8 +23,6 @@ showReport = function showReportModal()
                 d.createTime = new Date(d.createTime);
             });
 
-            console.log(data);
-
             // 创建 svg
             var overallChartSvg = d3.select('#overall-chart').append("svg");
             var timeChartSvg = d3.select('#time-chart').append("svg");
@@ -227,17 +225,6 @@ function drawTimeChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-    tooltip.style("position", "absolute")
-        .style("text-align", "center")
-        .style("width", "180px")
-        .style("height", "70px")
-        .style("padding", "2px")
-        .style("font", "12px sans-serif")
-        .style("background", "lightsteelblue")
-        .style("border", "0px")
-        .style("border-radius", "8px")
-        .style("pointer-events", "none");
-
     // 悬停交互
     bars.selectAll("rect")
         .on("mouseover", function (event, d) {
@@ -342,17 +329,6 @@ function drawCostChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-    tooltip.style("position", "absolute")
-        .style("text-align", "center")
-        .style("width", "180px")
-        .style("height", "70px")
-        .style("padding", "2px")
-        .style("font", "12px sans-serif")
-        .style("background", "lightsteelblue")
-        .style("border", "0px")
-        .style("border-radius", "8px")
-        .style("pointer-events", "none");
-
     // 悬停交互
     points.on("mouseover", function (event, d) {
         d3.select(this).attr("r", 5).attr("fill", "gray");
@@ -378,8 +354,8 @@ function drawCostChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
 
 function addBrush(overallChartSvg, data, timeChartSvg, costChartSvg) {
     var margin = { top: 20, right: 30, bottom: 30, left: 40 },
-        width = overallChartSvg.attr("width") - margin.left - margin.right,
-        height = overallChartSvg.attr("height") - margin.top - margin.bottom;
+        width = 800 - margin.left - margin.right,
+        height = 200 - margin.top - margin.bottom;
 
     var x = d3.scaleTime()
         .domain([d3.min(data, d => d.createTime), new Date()])

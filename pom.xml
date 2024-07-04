@@ -22,7 +22,7 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<maven.install.skip>true</maven.install.skip>
-
+		<dep.spring-core.version>6.0.7</dep.spring-core.version>
 		<!-- web frameworks and packaging -->
 		<dep.spring.boot.version>3.0.5</dep.spring.boot.version>
 		<dep.kaptcha.version>2.3.3</dep.kaptcha.version>
@@ -45,6 +45,12 @@
 		<dependency>
 			<groupId>io.pixelsdb</groupId>
 			<artifactId>pixels-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${dep.spring-core.version}</version>
 		</dependency>
 
 		<!-- protobuf -->

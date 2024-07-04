@@ -1239,10 +1239,21 @@ input.error {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px 20px 20px 20px;
-    overflow: hidden;
+    overflow: auto;
     display: none;
 }
 
+#report-area::-webkit-scrollbar {
+    width: 0; /* Set the width of the scrollbar */
+}
+
+#report-area::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Use a lighter color with some opacity */
+}
+
+#report-area::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Set the background color of the scrollbar track */
+}
 
 #report-modal .modal-content {
     background-color: #fefefe;

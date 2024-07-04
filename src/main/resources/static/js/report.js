@@ -1,16 +1,36 @@
 // 定义 report modal 中关闭图标的事件处理函数
 function handleReportModalCloseClick() {
-    document.getElementById('report-modal').style.display = "none";
+    // 显示 main-area
+    var mainArea = document.getElementById('main-area');
+    mainArea.style.display = "block";
+
+    // 隐藏 report-area
+    document.getElementById('report-area').style.display = "none";
 
     // 删除所有的 svg
-    document.querySelectorAll('#report-modal svg').forEach(function(svgElement) {
+    document.querySelectorAll('#report-area svg').forEach(function(svgElement) {
         svgElement.remove();
     });
 }
 
 showReport = function showReportModal()
 {
-    var reportModal = document.getElementById('report-modal');
+    // 显示 report-area
+    var reportArea = document.getElementById('report-area');
+    if (reportArea.style.display === 'block') {
+        // 如果report-area已经显示，则直接返回，不执行后续操作
+        return;
+    }
+    reportArea.style.display = "block";
+
+    // 隐藏 main-area
+    var mainArea = document.getElementById('main-area');
+    mainArea.style.display = "none";
+
+    // 为关闭按钮添加点击事件监听器
+    var closeButton = document.getElementsByClassName('close')[1];
+    closeButton.removeEventListener('click', handleReportModalCloseClick);
+    closeButton.addEventListener('click', handleReportModalCloseClick);
 
     // 获取查询数据并绘制图表
     $.ajax({
@@ -40,14 +60,6 @@ showReport = function showReportModal()
             console.log("Error get query results ", error);
         }
     })
-
-    // 显示模态窗口
-    reportModal.style.display = "block";
-
-    // 为关闭按钮添加点击事件监听器
-    var closeButton = document.getElementsByClassName('close')[1];
-    closeButton.removeEventListener('click', handleReportModalCloseClick);
-    closeButton.addEventListener('click', handleReportModalCloseClick);
 }
 
 function drawOverallChart(svg, data) {

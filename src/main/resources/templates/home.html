@@ -109,7 +109,8 @@
 
         <!--页面主要内容-->
         <main class="pixels-layout-content">
-            <div class="row">
+            <!-- main area: translator 和 results 界面 -->
+            <div class="row" id="main-area">
                 <!-- 左边区域 -->
                 <div class="col-xs-12 col-sm-6 col-md-6 left-content">
                     <div class="content-title">
@@ -154,24 +155,6 @@
                     </div>
                 </div>
 
-                <!-- report 模态窗口 -->
-                <div id="report-modal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12" id="overall-chart">
-                                <span class="text-center chart-title">Overall Chart</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6" id="time-chart">
-                                <span class="text-center chart-title">Time Chart</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6" id="cost-chart">
-                                <span class="text-center chart-title">Cost Chart</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- 拖动条 -->
                 <div class="col-xs-12 col-sm-6 col-md-6 resize"></div>
 
@@ -183,6 +166,22 @@
                         <img class="fullscreen-btn" src="images/fullscreen.svg" onclick="toggleFullscreen('right')">
                     </div>
                     <div id="status-area">
+                    </div>
+                </div>
+            </div>
+
+            <!-- report 界面 -->
+            <div id="report-area">
+                <span class="close">&times;</span>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12" id="overall-chart">
+                        <span class="text-center chart-title">Overall Chart</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6" id="time-chart">
+                        <span class="text-center chart-title">Time Chart</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6" id="cost-chart">
+                        <span class="text-center chart-title">Cost Chart</span>
                     </div>
                 </div>
             </div>

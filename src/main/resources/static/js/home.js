@@ -874,49 +874,54 @@ function displayQueryResult(result, submitQueryRequest, statusDisplay, resultDis
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const dragbar = document.querySelector('.resize');
-    const row = dragbar.parentElement;
-    const leftContent = document.querySelector('.left-content');
-    const rightContent = document.querySelector('.right-content');
+    // 封装拖拽逻辑
+    function setupDraggable(rowSelector) {
+        const dragbar = document.querySelector(`${rowSelector} .resize`);
+        const row = dragbar.parentElement;
+        const leftContent = document.querySelector(`${rowSelector} .left-content`);
+        const rightContent = document.querySelector(`${rowSelector} .right-content`);
 
-    // 监听mousedown事件，当鼠标按下时开始拖动
-    dragbar.addEventListener('mousedown', (e) => {
-        e.preventDefault();
+        // 监听mousedown事件，当鼠标按下时开始拖动
+        dragbar.addEventListener('mousedown', (e) => {
+            e.preventDefault();
 
-        // 获取左右区域的固定偏移值
-        const offset = 25; // 假设左右区域的固定偏移值为40px
+            // 获取左右区域的固定偏移值
+            const offset = 25; // 假设左右区域的固定偏移值为40px
 
-        // 监听mousemove事件，当鼠标移动时进行拖动
-        const onMouseMove = (e) => {
-            let deltaX = e.clientX - row.getBoundingClientRect().left - row.offsetWidth / 2;
-            if(e.clientX - row.getBoundingClientRect().left <= 60)
-                deltaX = 60 - row.offsetWidth / 2;
-            else if(row.getBoundingClientRect().right - e.clientX <= 60)
-                deltaX = row.offsetWidth / 2 - 60;
-            const deltaPercentage = deltaX / row.offsetWidth;
+            // 监听mousemove事件，当鼠标移动时进行拖动
+            const onMouseMove = (e) => {
+                let deltaX = e.clientX - row.getBoundingClientRect().left - row.offsetWidth / 2;
+                if(e.clientX - row.getBoundingClientRect().left <= 60)
+                    deltaX = 60 - row.offsetWidth / 2;
+                else if(row.getBoundingClientRect().right - e.clientX <= 60)
+                    deltaX = row.offsetWidth / 2 - 60;
+                const deltaPercentage = deltaX / row.offsetWidth;
 
-            // 设置左右区域的宽度
-            leftContent.style.width = `calc(${50 + deltaPercentage * 100}% - ${offset}px)`;
-            rightContent.style.width = `calc(${50 - deltaPercentage * 100}% - ${offset}px)`;
-        };
+                // 设置左右区域的宽度
+                leftContent.style.width = `calc(${50 + deltaPercentage * 100}% - ${offset}px)`;
+                rightContent.style.width = `calc(${50 - deltaPercentage * 100}% - ${offset}px)`;
+            };
 
-        // 监听mouseup事件，当鼠标松开时结束拖动
-        const onMouseUp = () => {
-            // 移除mousemove和mouseup事件监听器
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-        };
+            // 监听mouseup事件，当鼠标松开时结束拖动
+            const onMouseUp = () => {
+                // 移除mousemove和mouseup事件监听器
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
 
-        // 添加mousemove和mouseup事件监听器
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-    });
+            // 添加mousemove和mouseup事件监听器
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    }
+    setupDraggable('#main-area');
+    setupDraggable('#report-area');
 });
 
 function toggleFullscreen(side) {
-    const leftContent = document.querySelector('.left-content');
-    const rightContent = document.querySelector('.right-content');
-    const dragbar = document.querySelector('.resize');
+    const leftContent = document.querySelector('#main-area .left-content');
+    const rightContent = document.querySelector('#main-area .right-content');
+    const dragbar = document.querySelector('#main-area .resize');
 
     if (side === 'left') {
         const fullscreenBtn = document.querySelector('.left-content .fullscreen-btn');

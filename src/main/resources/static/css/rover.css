@@ -732,13 +732,8 @@ input.error {
     }
 }
 
-/* Monospaced font */
-.mono-font {
-    font-family: monospace;
-}
-
-.mono-bold-font {
-    font-family: monospace;
+/* blod font */
+.bold-font {
     font-weight: bold;
 }
 
@@ -1068,8 +1063,7 @@ input.error {
     float: right;
     font-size: 36px;
     font-weight: bold;
-    margin-top: 6px;
-    margin-right: 14px;
+    margin-top: 5px;
 }
 
 #query-modal .close:hover,
@@ -1245,26 +1239,26 @@ input.error {
     display: none;
 }
 
-#report-area::-webkit-scrollbar {
+#report-area .left-content,
+#report-area .right-content {
+    overflow: auto;
+}
+
+#report-area .left-content::-webkit-scrollbar,
+#report-area .right-content::-webkit-scrollbar {
     width: 0; /* Set the width of the scrollbar */
 }
 
-#report-area::-webkit-scrollbar-thumb {
+#report-area .left-content::-webkit-scrollbar-thumb,
+#report-area .right-content::-webkit-scrollbar-thumb {
     background-color: transparent; /* Use a lighter color with some opacity */
 }
 
-#report-area::-webkit-scrollbar-track {
+#report-area .left-content::-webkit-scrollbar-track,
+#report-area .right-content::-webkit-scrollbar-thumb {
     background-color: #f0f0f0; /* Set the background color of the scrollbar track */
 }
 
-#report-modal .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
-}
-
-#report-modal #overall-chart {
-    margin-bottom: 10px;
+#report-area .result-message .result-uuid {
+    color: #5cb85c;
 }

@@ -172,15 +172,27 @@
 
             <!-- report 界面 -->
             <div class = "row" id="report-area">
-                <span class="close">&times;</span>
-                <div class="col-xs-12 col-sm-12 col-md-12" id="overall-chart">
-                    <span class="text-center chart-title">Overall Chart</span>
+                <!-- 左边区域 -->
+                <div class="col-xs-12 col-sm-6 col-md-6 left-content">
+                    <span class="close">&times;</span>
+                    <div class="col-xs-12 col-sm-12 col-md-12" id="overall-chart">
+                        <span class="text-center chart-title">Overall Chart</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12" id="time-chart">
+                        <span class="text-center chart-title">Time Chart</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12" id="cost-chart">
+                        <span class="text-center chart-title">Cost Chart</span>
+                    </div>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6" id="time-chart">
-                    <span class="text-center chart-title">Time Chart</span>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6" id="cost-chart">
-                    <span class="text-center chart-title">Cost Chart</span>
+
+                <!-- 拖动条 -->
+                <div class="col-xs-12 col-sm-6 col-md-6 resize"></div>
+
+                <!-- 右边区域 -->
+                <div class="col-xs-12 col-sm-6 col-md-6 right-content">
+                    <div class="col-xs-12 col-sm-12 col-md-12" id="query-info">
+                    </div>
                 </div>
             </div>
         </main>

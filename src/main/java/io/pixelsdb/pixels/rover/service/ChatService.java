@@ -68,6 +68,16 @@ public class ChatService
         sqlStatements.setIsModified(true);
         sqlStatementsRepository.save(sqlStatements);
     }
+    @Transactional
+    public String getSQLStatement(String uuid)
+    {
+        SQLStatements sqlStatements = sqlStatementsRepository.findByUuid(uuid);
+        if (sqlStatements == null)
+        {
+            throw new RuntimeException("SQL Statement not found");
+        }
+        return sqlStatements.getSqlText();
+    }
 
     @Transactional
     public void saveMessage(String uuid, String sqlText, String userMessage, String userMessageUuid)

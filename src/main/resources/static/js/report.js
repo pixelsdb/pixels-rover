@@ -55,11 +55,14 @@ showReport = function showReportModal()
 
             // 添刷刷选功能
             addBrush(overallChartSvg, data, timeChartSvg, costChartSvg);
+
+            // 显示具体 query 信息
+            displayQueryInfo(data);
         },
         error: function (error) {
             console.log("Error get query results ", error);
         }
-    })
+    });
 }
 
 function drawOverallChart(svg, data) {
@@ -155,8 +158,7 @@ function drawOverallChart(svg, data) {
         .remove();
 }
 
-function drawTimeChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new Date()) {
-    // 设置 svg 的大小和背景颜色
+function drawTimeChart(svg, data) {
     svg.attr("viewBox", "0 0 400 200")
         .attr("preserveAspectRatio", "xMidYMid meet")
         .style("background-color", "#F6F8FA");
@@ -165,12 +167,10 @@ function drawTimeChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
         width = 400 - margin.left - margin.right,
         height = 200 - margin.top - margin.bottom;
 
-    // 横轴： createTime
-    var x = d3.scaleTime()
-        .domain([x0, x1]) // 从数据中最早时间到当前时间
+    var x = d3.scaleLinear()
+        .domain([-0.5, data.length - 0.5])
         .range([0, width]);
 
-    // 纵轴：时间长度（ms）
     var yDomain = data.length ? [0, d3.max(data, d => d.result.pendingTimeMs + d.result.executionTimeMs)] : [0, 1];
     var y = d3.scaleLinear()
         .domain(yDomain)
@@ -179,65 +179,43 @@ function drawTimeChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
     var g = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // 绘制横轴
-    var xAxis = d3.axisBottom(x).tickFormat(d3.timeFormat("%b %d")).ticks(d3.timeDay.every(1));
-    var xAxisGroup = g.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(xAxis)
-        .selectAll(".tick line")
-        .attr("stroke", "#CCD4DB");
-
-    // 绘制等高线并标注 ms
     var yAxis = d3.axisLeft(y).ticks(10).tickSize(-width).tickFormat(d => `${d}`);
     var yAxisGroup = g.append("g")
         .call(yAxis)
         .selectAll(".tick line")
         .attr("stroke", "#CCD4DB");
 
-    g.selectAll(".domain").remove(); // 移除轴线
+    g.selectAll(".domain").remove();
 
-    // 移动等高线标签位置
     yAxisGroup.selectAll(".tick text")
         .attr("x", -10);
 
-    // // 添加图注
-    // g.append("text")
-    //     .attr("x", width - 60)
-    //     .attr("y", -10)
-    //     .attr("text-anchor", "end")
-    //     .text("Time (ms)");
-
-    // 绘制甘特图
     var bars = g.selectAll(".bar")
         .data(data)
         .enter().append("g")
         .attr("class", "bar")
-        .attr("transform", d => `translate(${x(d.createTime)}, 0)`);
+        .attr("transform", (d, i) => `translate(${x(i)}, 0)`);
 
-    // 绘制 pendingTime 部分
     bars.append("rect")
         .attr("class", "pending")
-        .attr("x", -2) // 给每个条形添加一些宽度
-        .attr("width", 4) // 调整条形宽度
+        .attr("x", -2)
+        .attr("width", 4)
         .attr("y", d => y(d.result.pendingTimeMs))
         .attr("height", d => height - y(d.result.pendingTimeMs))
         .attr("fill", "#98d3c2");
 
-    // 绘制 executionTime 部分
     bars.append("rect")
         .attr("class", "execution")
-        .attr("x", -2) // 给每个条形添加一些宽度
-        .attr("width", 4) // 调整条形宽度
+        .attr("x", -2)
+        .attr("width", 4)
         .attr("y", d => y(d.result.pendingTimeMs + d.result.executionTimeMs))
         .attr("height", d => height - y(d.result.executionTimeMs))
         .attr("fill", "#d3a298");
 
-    // 添加悬停提示
     var tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-    // 悬停交互
     bars.selectAll("rect")
         .on("mouseover", function (event, d) {
             var currentRect = d3.select(this);
@@ -274,8 +252,7 @@ function drawTimeChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
         });
 }
 
-function drawCostChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new Date()) {
-    // 设置 svg 的大小和背景颜色
+function drawCostChart(svg, data) {
     svg.attr("viewBox", "0 0 400 200")
         .attr("preserveAspectRatio", "xMidYMid meet")
         .style("background-color", "#F6F8FA");
@@ -284,12 +261,10 @@ function drawCostChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
         width = 400 - margin.left - margin.right,
         height = 200 - margin.top - margin.bottom;
 
-    // 横轴： createTime
-    var x = d3.scaleTime()
-        .domain([x0, x1]) // 从数据中最早时间到当前时间
+    var x = d3.scaleLinear()
+        .domain([-0.5, data.length - 0.5])
         .range([0, width]);
 
-    // 纵轴： billedCents
     var yDomain = data.length ? [0, d3.max(data, d => d.result.billedCents)] : [0, 1];
     var y = d3.scaleLinear()
         .domain(yDomain)
@@ -298,50 +273,30 @@ function drawCostChart(svg, data, x0 = d3.min(data, d => d.createTime), x1 = new
     var g = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // 绘制横轴
-    var xAxis = d3.axisBottom(x).tickFormat(d3.timeFormat("%b %d")).ticks(d3.timeDay.every(1));
-    var xAxisGroup = g.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(xAxis)
-        .selectAll(".tick line")
-        .attr("stroke", "#CCD4DB");
-
-    // 绘制等高线并标注
     var yAxis = d3.axisLeft(y).ticks(10).tickSize(-width).tickFormat(d => `${d}`);
     var yAxisGroup = g.append("g")
         .call(yAxis)
         .selectAll(".tick line")
         .attr("stroke", "#CCD4DB");
 
-    g.selectAll(".domain").remove(); // 移除轴线
+    g.selectAll(".domain").remove();
 
-    // 移动等高线标签位置
     yAxisGroup.selectAll(".tick text")
         .attr("x", -10);
 
-    // // 添加图注
-    // g.append("text")
-    //     .attr("x", width - 60)
-    //     .attr("y", -10)
-    //     .attr("text-anchor", "end")
-    //     .text("Billed Cents");
-
-    // 绘制散点图
     var points = g.selectAll(".point")
         .data(data)
         .enter().append("circle")
         .attr("class", "point")
-        .attr("cx", d => x(d.createTime))
+        .attr("cx", (d, i) => x(i))
         .attr("cy", d => y(d.result.billedCents))
         .attr("r", 3)
         .attr("fill", "#3182bd");
 
-    // 添加悬停提示
     var tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-    // 悬停交互
     points.on("mouseover", function (event, d) {
         d3.select(this).attr("r", 5).attr("fill", "gray");
 
@@ -375,6 +330,7 @@ function addBrush(overallChartSvg, data, timeChartSvg, costChartSvg) {
 
     var brush = d3.brushX()
         .extent([[0, 0], [width, height]])
+        .on("brush start", resetCharts)
         .on("brush end", brushed);
 
     var gBrush = overallChartSvg.append("g")
@@ -382,9 +338,24 @@ function addBrush(overallChartSvg, data, timeChartSvg, costChartSvg) {
         .attr("transform", `translate(${margin.left},${margin.top})`)
         .call(brush);
 
+    function resetCharts() {
+        // Reset the charts to show all data when brushing starts or ends without selection
+        timeChartSvg.selectAll("*").remove();
+        drawTimeChart(timeChartSvg, data, null, null);
+
+        costChartSvg.selectAll("*").remove();
+        drawCostChart(costChartSvg, data, null, null);
+    }
+
     function brushed(event) {
         var selection = event.selection;
-        if (!selection) return;
+        if (!selection) {
+            // If there's no selection, reset the charts to show all data
+            resetCharts();
+            // Also update query info to reflect all queries
+            displayQueryInfo(data);
+            return;
+        }
 
         var [x0, x1] = selection.map(x.invert);
 
@@ -395,5 +366,167 @@ function addBrush(overallChartSvg, data, timeChartSvg, costChartSvg) {
 
         costChartSvg.selectAll("*").remove();
         drawCostChart(costChartSvg, brushedData, x0, x1);
+
+        // Update query info based on the selected data
+        displayQueryInfo(brushedData);
+    }
+}
+
+function displayQueryInfo(data) {
+    var queryInfoDiv = document.getElementById('query-info');
+    if (data && data.length != 0) {
+        queryInfoDiv.innerHTML = ''; // 清空旧内容
+        data.forEach(query => {
+            var resultMessage = document.createElement('div');
+            resultMessage.className = 'result-message';
+            switch (query.result.executionHint.toLowerCase())
+            {
+                case 'best_of_effort':
+                    resultMessage.style.backgroundColor = '#f3f9e8';
+                    break;
+                case 'relaxed':
+                    resultMessage.style.backgroundColor = '#f9f0e8';
+                    break;
+                case 'immediate':
+                    resultMessage.style.backgroundColor = '#f9e8e8';
+                    break;
+                default:
+                    resultMessage.style.backgroundColor= '#e6f7ff'; // 默认颜色
+            }
+            //  创建状态显示区域
+            var statusDisplay = document.createElement('div');
+            statusDisplay.className = 'mono-bold-font no-select';
+            statusDisplay.innerHTML = `Query Uuid: <span>${query.resultUuid}</span>`;
+            resultMessage.appendChild(statusDisplay);
+
+            // 添加折叠按钮
+            var toggleResults = document.createElement('span');
+            toggleResults.className = 'toggle-results';
+            toggleResults.addEventListener('click', function () {
+                if (resultDisplay.style.display === 'none') {
+                    resultDisplay.style.display = 'block';
+                    toggleResults.classList.add('expanded');
+                } else {
+                    resultDisplay.style.display = 'none';
+                    toggleResults.classList.remove('expanded');
+                }
+            });
+            statusDisplay.appendChild(toggleResults);
+
+            //  创建结果显示区域
+            var resultDisplay = document.createElement('div');
+            resultDisplay.className = 'query-results';
+            resultDisplay.style.display = 'none'; //  默认隐藏结果
+
+            // 添加 query 信息
+            var hightlightedSQL = null;
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/api/chat/get-sql',
+                data: JSON.stringify({"uuid": query.sqlStatementsUuid}),
+                success: function (querySQL) {
+                    hightlightedSQL = hljs.highlight(querySQL, {language: "sql", ignoreIllegals: true}).value;
+                },
+                error: function (error) {
+                    console.log("Error get sql statement ", error);
+                }
+            });
+            var resultDisplayContent = document.createElement('div');
+            var queryDisplay = document.createElement('div');
+            queryDisplay.className = 'query-display';
+            queryDisplay.innerHTML = 'Query: ' + hightlightedSQL;
+            resultDisplayContent.appendChild(queryDisplay);
+
+            // 添加 executionHint 信息
+            var executionHintDisplay = document.createElement('div');
+            executionHintDisplay.className = 'execution-hint-display';
+            switch (query.result.executionHint.toLowerCase())
+            {
+                case 'best_of_effort':
+                    executionHintDisplay.textContent = 'ExecutionHint: Best-of-effort';
+                    break;
+                case 'relaxed':
+                    executionHintDisplay.textContent = 'ExecutionHint: Relaxed';
+                    break;
+                case 'immediate':
+                    executionHintDisplay.textContent = 'ExecutionHint: Immediate';
+                    break;
+                default:
+                    executionHintDisplay.textContent = 'ExecutionHint: Unknown';
+            }
+            resultDisplayContent.appendChild(executionHintDisplay);
+
+            // 添加 limitRow 信息
+            var limitRowsDisplay = document.createElement('div')
+            limitRowsDisplay.className = 'limit-rows-display';
+            limitRowsDisplay.textContent = 'LimitRows: ' + query.resultLimit;
+            resultDisplayContent.appendChild(limitRowsDisplay);
+
+            var columnNames = query.result.columnNames;
+            var rows  = query.result.rows;
+            var columnPrintSizes = query.result.columnPrintSizes;
+
+            // 创建表格元素
+            var table = document.createElement('table');
+            table.className = 'result-table result-table-bordered';
+
+            // 创建表头
+            var thead = document.createElement('thead');
+            var headerRow = document.createElement('tr');
+
+            columnNames.forEach(function (columnName, index) {
+                var columnPrintSize = Math.max(columnPrintSizes[index], columnName.length);
+                var th = document.createElement('th');
+                th.textContent = columnName;
+                th.style.width = columnPrintSize + 3 + 'ch'; // 增加固定长度
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // 创建表体
+            var tbody = document.createElement('tbody');
+
+            rows.forEach(function (row) {
+                if(row === undefined || row === null) {
+                    //throw new Error("null row");
+                    return;
+                }
+                var tr = document.createElement('tr');
+
+                columnNames.forEach(function (_, index) {
+                    var td = document.createElement('td');
+                    var value = row[index];
+                    if (value === undefined || value === null) {
+                        value = 'null';
+                    }
+                    td.textContent = value;
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(tbody);
+            resultDisplayContent.appendChild(table);
+
+            // 添加costCents信息
+            var costDisplay = document.createElement('div');
+            costDisplay.className = 'cost-display';
+            costDisplay.innerHTML = `
+                        <span class="pending-ms">pending: ${query.result.pendingTimeMs} ms</span>
+                        <span class="execution-ms">execution: ${query.result.executionTimeMs} ms</span>
+                        <span class="cost-cents">cost: ${query.result.billedCents} cents</span>
+                    `;
+            resultDisplayContent.appendChild(costDisplay);
+
+            resultDisplay.appendChild(resultDisplayContent);
+
+            resultMessage.appendChild(resultDisplay);
+
+            queryInfoDiv.appendChild(resultMessage);
+        });
     }
 }

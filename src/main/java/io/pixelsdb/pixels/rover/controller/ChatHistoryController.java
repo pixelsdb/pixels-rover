@@ -48,6 +48,12 @@ public class ChatHistoryController
         chatService.updateSQLStatement(request.getUuid(), request.getNewSQL());
     }
 
+    @PostMapping("/get-sql")
+    public String getSQLStatement(@RequestBody GetSQLRequest request)
+    {
+        return chatService.getSQLStatement(request.getUuid());
+    }
+
     @PostMapping("/save-message")
     public void saveMessage(@RequestBody SaveMessageRequest request)
     {

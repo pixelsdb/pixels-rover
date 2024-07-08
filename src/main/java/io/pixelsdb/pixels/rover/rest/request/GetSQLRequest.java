@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.pixelsdb.pixels.rover.mapper;
+package io.pixelsdb.pixels.rover.rest.request;
 
-import io.pixelsdb.pixels.rover.model.SQLStatements;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
-
-public interface SQLStatementsRepository extends JpaRepository<SQLStatements, Long>
+public class GetSQLRequest
 {
-    SQLStatements findById(long id);
-    SQLStatements findByUuid(String uuid);
+    String uuid;
+
+    public String getUuid() { return uuid; }
+
+    public void setUuid(String uuid) { this.uuid = uuid; }
 }

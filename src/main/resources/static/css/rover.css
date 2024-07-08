@@ -732,6 +732,11 @@ input.error {
     }
 }
 
+/* blod font */
+.bold-font {
+    font-weight: bold;
+}
+
 .row {
     width: 100%;
     height: 100%;
@@ -1021,7 +1026,7 @@ input.error {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     background-color: rgba(0,0,0,0.4);
 }
 
@@ -1053,10 +1058,20 @@ input.error {
     margin-right: -10px;
 }
 
+#report-area .close
+{
+    float: right;
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
 #query-modal .close:hover,
 #query-modal .close:focus,
 #query-modal .confirm:hover,
-#query-modal .confirm.focus {
+#query-modal .confirm.focus,
+#report-area .close:hover,
+#report-area .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -1201,4 +1216,49 @@ input.error {
     transform: translate(-50%, -50%) rotate(135deg); /*  展开状态为向下 */
 }
 
+.chart-title {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
 
+.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 2px;
+    font: 12px sans-serif;
+    background-color: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+    word-wrap: break-word;
+}
+
+#report-area {
+    display: none;
+}
+
+#report-area .left-content,
+#report-area .right-content {
+    overflow: auto;
+}
+
+#report-area .left-content::-webkit-scrollbar,
+#report-area .right-content::-webkit-scrollbar {
+    width: 0; /* Set the width of the scrollbar */
+}
+
+#report-area .left-content::-webkit-scrollbar-thumb,
+#report-area .right-content::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Use a lighter color with some opacity */
+}
+
+#report-area .left-content::-webkit-scrollbar-track,
+#report-area .right-content::-webkit-scrollbar-thumb {
+    background-color: #f0f0f0; /* Set the background color of the scrollbar track */
+}
+
+#report-area .result-message .result-uuid {
+    color: #5cb85c;
+}

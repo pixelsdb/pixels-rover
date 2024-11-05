@@ -16,7 +16,6 @@
 package io.pixelsdb.pixels.rover.model;
 
 import jakarta.persistence.*;
-import org.checkerframework.checker.units.qual.C;
 
 import java.sql.Timestamp;
 

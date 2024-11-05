@@ -972,277 +972,276 @@ document.addEventListener('DOMContentLoaded', function () {
         url: '/api/chat/get-chat-history',
         success: function (response) {
             // show chat history messages and query results
-            for (let message of response)
-            {
-                var chatArea = document.getElementById('chat-area');
+            response.forEach(message => {
+                (function (message) {
+                    var chatArea = document.getElementById('chat-area');
 
-                // show user's message
-                var userMessageElement = document.createElement('div');
-                userMessageElement.className = 'user-message';
-                userMessageElement.id = message.userMessageUuid;
+                    // show user's message
+                    var userMessageElement = document.createElement('div');
+                    userMessageElement.className = 'user-message';
+                    userMessageElement.id = message.userMessageUuid;
 
-                var userAvatarImage = document.createElement('img');
-                userAvatarImage.className = 'avatar-image';
-                userAvatarImage.src = 'images/users/avatar-cat.jpg';
+                    var userAvatarImage = document.createElement('img');
+                    userAvatarImage.className = 'avatar-image';
+                    userAvatarImage.src = 'images/users/avatar-cat.jpg';
 
-                var userMessageDiv = document.createElement('div');
-                userMessageDiv.className = 'message';
-                userMessageDiv.textContent = message.userMessage;
+                    var userMessageDiv = document.createElement('div');
+                    userMessageDiv.className = 'message';
+                    userMessageDiv.textContent = message.userMessage;
 
-                userMessageElement.appendChild(userAvatarImage);
-                userMessageElement.appendChild(userMessageDiv);
+                    userMessageElement.appendChild(userAvatarImage);
+                    userMessageElement.appendChild(userMessageDiv);
 
-                chatArea.appendChild(userMessageElement);
+                    chatArea.appendChild(userMessageElement);
 
-                // show system's message
-                let querySQL = message.sqlStatements;
-                var hightlightedSQL = hljs.highlight(querySQL, {language: "sql", ignoreIllegals: true}).value;
+                    // show system's message
+                    let querySQL = message.sqlStatements;
+                    var hightlightedSQL = hljs.highlight(querySQL, { language: "sql", ignoreIllegals: true }).value;
 
-                var systemMessage = document.createElement("div");
-                systemMessage.className = 'system-message';
-                systemMessage.id = message.sqlStatementsUuid;
+                    var systemMessage = document.createElement("div");
+                    systemMessage.className = 'system-message';
+                    systemMessage.id = message.sqlStatementsUuid;
 
-                var sysAvatarImage = document.createElement('img');
-                sysAvatarImage.className = 'avatar-image';
-                sysAvatarImage.src = 'images/logo-ico.png';
-                systemMessage.appendChild(sysAvatarImage);
+                    var sysAvatarImage = document.createElement('img');
+                    sysAvatarImage.className = 'avatar-image';
+                    sysAvatarImage.src = 'images/logo-ico.png';
+                    systemMessage.appendChild(sysAvatarImage);
 
-                var sysMessageDiv = document.createElement('div');
-                sysMessageDiv.className = 'message no-select';
-                sysMessageDiv.innerHTML = hightlightedSQL;
-                systemMessage.appendChild(sysMessageDiv);
+                    var sysMessageDiv = document.createElement('div');
+                    sysMessageDiv.className = 'message no-select';
+                    sysMessageDiv.innerHTML = hightlightedSQL;
+                    systemMessage.appendChild(sysMessageDiv);
 
-                if (message.isExecuted == false) // show edit, execute, cancel and confirm button
-                {
-                    var sysMessageEditDiv = document.createElement('textarea');
-                    sysMessageEditDiv.className = 'message-textarea';
-                    sysMessageEditDiv.spellcheck = false;
-                    sysMessageEditDiv.style.display = 'none';
-                    systemMessage.appendChild(sysMessageEditDiv);
-
-                    var sysIconContainer = document.createElement('div');
-                    sysIconContainer.className = 'icon-container';
-
-                    var sysEditIcon = document.createElement('img');
-                    sysEditIcon.src = 'images/edit.svg';
-                    sysEditIcon.alt = 'Edit';
-                    sysEditIcon.className = 'icon';
-                    sysEditIcon.addEventListener('click', function (event) {
-                        editQuery(message.sqlStatementsUuid);
-                    });
-                    sysIconContainer.appendChild(sysEditIcon);
-
-                    var sysExecuteIcon = document.createElement('img');
-                    sysExecuteIcon.src = 'images/execute.svg';
-                    sysExecuteIcon.alt = 'Execute';
-                    sysExecuteIcon.className = 'icon';
-                    sysExecuteIcon.addEventListener('click', function(event) {
-                        sendQuery(message.sqlStatementsUuid);
-                    });
-                    sysIconContainer.appendChild(sysExecuteIcon);
-
-                    var sysCancelIcon = document.createElement('img');
-                    sysCancelIcon.src = 'images/cancel.svg';
-                    sysCancelIcon.alt = 'Cancel';
-                    sysCancelIcon.className = 'icon';
-                    sysCancelIcon.addEventListener('click', function (event) {
-                        cancelEdit(message.sqlStatementsUuid);
-                    });
-                    sysCancelIcon.style.display = 'none';
-                    sysIconContainer.appendChild(sysCancelIcon);
-
-                    var sysConfirmIcon = document.createElement('img');
-                    sysConfirmIcon.src = 'images/confirm.svg';
-                    sysConfirmIcon.alt = 'Confirm';
-                    sysConfirmIcon.className = 'icon';
-                    sysConfirmIcon.addEventListener('click', function (event) {
-                        confirmEdit(message.sqlStatementsUuid);
-                    })
-                    sysConfirmIcon.style.display = 'none';
-                    sysIconContainer.appendChild(sysConfirmIcon);
-                    systemMessage.appendChild(sysIconContainer);
-                }
-                else // show query results
-                {
-                    var resultMessage = document.createElement('div');
-                    resultMessage.className = 'result-message';
-                    resultMessage.id = message.resultsUuid;
-
-                    const results = JSON.parse(message.results);
-
-                    switch (results.executionHint.toLowerCase())
+                    if (message.isExecuted == false) // show edit, execute, cancel and confirm button
                     {
-                        case 'best_of_effort':
-                            resultMessage.style.backgroundColor = '#f3f9e8';
-                            break;
-                        case 'relaxed':
-                            resultMessage.style.backgroundColor = '#f9f0e8';
-                            break;
-                        case 'immediate':
-                            resultMessage.style.backgroundColor = '#f9e8e8';
-                            break;
-                        default:
-                            resultMessage.style.backgroundColor= '#e6f7ff'; // 默认颜色
+                        var sysMessageEditDiv = document.createElement('textarea');
+                        sysMessageEditDiv.className = 'message-textarea';
+                        sysMessageEditDiv.spellcheck = false;
+                        sysMessageEditDiv.style.display = 'none';
+                        systemMessage.appendChild(sysMessageEditDiv);
+
+                        var sysIconContainer = document.createElement('div');
+                        sysIconContainer.className = 'icon-container';
+
+                        var sysEditIcon = document.createElement('img');
+                        sysEditIcon.src = 'images/edit.svg';
+                        sysEditIcon.alt = 'Edit';
+                        sysEditIcon.className = 'icon';
+                        sysEditIcon.addEventListener('click', function (event) {
+                            editQuery(message.sqlStatementsUuid);
+                        });
+                        sysIconContainer.appendChild(sysEditIcon);
+
+                        var sysExecuteIcon = document.createElement('img');
+                        sysExecuteIcon.src = 'images/execute.svg';
+                        sysExecuteIcon.alt = 'Execute';
+                        sysExecuteIcon.className = 'icon';
+                        sysExecuteIcon.addEventListener('click', function (event) {
+                            sendQuery(message.sqlStatementsUuid);
+                        });
+                        sysIconContainer.appendChild(sysExecuteIcon);
+
+                        var sysCancelIcon = document.createElement('img');
+                        sysCancelIcon.src = 'images/cancel.svg';
+                        sysCancelIcon.alt = 'Cancel';
+                        sysCancelIcon.className = 'icon';
+                        sysCancelIcon.addEventListener('click', function (event) {
+                            cancelEdit(message.sqlStatementsUuid);
+                        });
+                        sysCancelIcon.style.display = 'none';
+                        sysIconContainer.appendChild(sysCancelIcon);
+
+                        var sysConfirmIcon = document.createElement('img');
+                        sysConfirmIcon.src = 'images/confirm.svg';
+                        sysConfirmIcon.alt = 'Confirm';
+                        sysConfirmIcon.className = 'icon';
+                        sysConfirmIcon.addEventListener('click', function (event) {
+                            confirmEdit(message.sqlStatementsUuid);
+                        })
+                        sysConfirmIcon.style.display = 'none';
+                        sysIconContainer.appendChild(sysConfirmIcon);
+                        systemMessage.appendChild(sysIconContainer);
                     }
+                    else // show query results
+                    {
+                        var resultMessage = document.createElement('div');
+                        resultMessage.className = 'result-message';
+                        resultMessage.id = message.resultsUuid;
 
-                    //  创建状态显示区域
-                    var statusDisplay = document.createElement('div');
-                    statusDisplay.className = 'query-status no-select';
-                    statusDisplay.innerHTML = 'Query Status: <span class="finished">FINISHED</span>';
-                    resultMessage.appendChild(statusDisplay);
+                        const results = JSON.parse(message.results);
 
-                    // 添加折叠按钮
-                    var toggleResults = document.createElement('span');
-                    toggleResults.className = 'toggle-results';
-                    toggleResults.addEventListener('click', function () {
-                        if (resultDisplay.style.display === 'none') {
-                            resultDisplay.style.display = 'block';
-                            toggleResults.classList.add('expanded');
-                        } else {
-                            resultDisplay.style.display = 'none';
-                            toggleResults.classList.remove('expanded');
+                        switch (results.executionHint.toLowerCase()) {
+                            case 'best_of_effort':
+                                resultMessage.style.backgroundColor = '#f3f9e8';
+                                break;
+                            case 'relaxed':
+                                resultMessage.style.backgroundColor = '#f9f0e8';
+                                break;
+                            case 'immediate':
+                                resultMessage.style.backgroundColor = '#f9e8e8';
+                                break;
+                            default:
+                                resultMessage.style.backgroundColor = '#e6f7ff'; // 默认颜色
                         }
-                    });
-                    statusDisplay.appendChild(toggleResults);
 
-                    //  创建结果显示区域
-                    var resultDisplay = document.createElement('div');
-                    resultDisplay.className = 'query-results';
-                    resultDisplay.style.display = 'none'; //  默认隐藏结果
+                        //  创建状态显示区域
+                        var statusDisplay = document.createElement('div');
+                        statusDisplay.className = 'query-status no-select';
+                        statusDisplay.innerHTML = 'Query Status: <span class="finished">FINISHED</span>';
+                        resultMessage.appendChild(statusDisplay);
 
-                    // 添加 query 信息
-                    var resultDisplayContent = document.createElement('div');
-                    var queryDisplay = document.createElement('div');
-                    queryDisplay.className = 'query-display';
-                    queryDisplay.innerHTML = 'Query: ' + hightlightedSQL;
-                    resultDisplayContent.appendChild(queryDisplay);
+                        // 添加折叠按钮
+                        var toggleResults = document.createElement('span');
+                        toggleResults.className = 'toggle-results';
+                        toggleResults.addEventListener('click', function () {
+                            if (resultDisplay.style.display === 'none') {
+                                resultDisplay.style.display = 'block';
+                                toggleResults.classList.add('expanded');
+                            } else {
+                                resultDisplay.style.display = 'none';
+                                toggleResults.classList.remove('expanded');
+                            }
+                        });
+                        statusDisplay.appendChild(toggleResults);
 
-                    // 添加 executionHint 信息
-                    var executionHintDisplay = document.createElement('div');
-                    executionHintDisplay.className = 'execution-hint-display';
-                    switch (results.executionHint.toLowerCase())
-                    {
-                        case 'best_of_effort':
-                            executionHintDisplay.textContent = 'ExecutionHint: Best-of-effort';
-                            break;
-                        case 'relaxed':
-                            executionHintDisplay.textContent = 'ExecutionHint: Relaxed';
-                            break;
-                        case 'immediate':
-                            executionHintDisplay.textContent = 'ExecutionHint: Immediate';
-                            break;
-                        default:
-                            executionHintDisplay.textContent = 'ExecutionHint: Unknown';
-                    }
-                    resultDisplayContent.appendChild(executionHintDisplay);
+                        //  创建结果显示区域
+                        var resultDisplay = document.createElement('div');
+                        resultDisplay.className = 'query-results';
+                        resultDisplay.style.display = 'none'; //  默认隐藏结果
 
-                    // 添加 limitRow 信息
-                    var limitRowsDisplay = document.createElement('div')
-                    limitRowsDisplay.className = 'limit-rows-display';
-                    limitRowsDisplay.textContent = 'LimitRows: ' + message.resultsLimit;
-                    resultDisplayContent.appendChild(limitRowsDisplay);
+                        // 添加 query 信息
+                        var resultDisplayContent = document.createElement('div');
+                        var queryDisplay = document.createElement('div');
+                        queryDisplay.className = 'query-display';
+                        queryDisplay.innerHTML = 'Query: ' + hightlightedSQL;
+                        resultDisplayContent.appendChild(queryDisplay);
 
-                    if(results.errorCode !== 0) {
-                        // 更新 status 显示
-                        var statusSpan = statusDisplay.querySelector('span:first-of-type');
-                        statusSpan.textContent = 'FAILED';
-                        statusSpan.classList.remove('finished');
-                        statusSpan.classList.add('failed');
-                        resultDisplayContent.textContent = result.errorMessage;
-                        resultDisplay.appendChild(resultDisplayContent);
-                        return;
-                    }
+                        // 添加 executionHint 信息
+                        var executionHintDisplay = document.createElement('div');
+                        executionHintDisplay.className = 'execution-hint-display';
+                        switch (results.executionHint.toLowerCase()) {
+                            case 'best_of_effort':
+                                executionHintDisplay.textContent = 'ExecutionHint: Best-of-effort';
+                                break;
+                            case 'relaxed':
+                                executionHintDisplay.textContent = 'ExecutionHint: Relaxed';
+                                break;
+                            case 'immediate':
+                                executionHintDisplay.textContent = 'ExecutionHint: Immediate';
+                                break;
+                            default:
+                                executionHintDisplay.textContent = 'ExecutionHint: Unknown';
+                        }
+                        resultDisplayContent.appendChild(executionHintDisplay);
 
-                    var columnNames = results.columnNames;
-                    var rows  = results.rows;
-                    var columnPrintSizes = results.columnPrintSizes;
+                        // 添加 limitRow 信息
+                        var limitRowsDisplay = document.createElement('div')
+                        limitRowsDisplay.className = 'limit-rows-display';
+                        limitRowsDisplay.textContent = 'LimitRows: ' + message.resultsLimit;
+                        resultDisplayContent.appendChild(limitRowsDisplay);
 
-                    // 创建表格元素
-                    var table = document.createElement('table');
-                    table.className = 'result-table result-table-bordered';
-
-                    // 创建表头
-                    var thead = document.createElement('thead');
-                    var headerRow = document.createElement('tr');
-
-                    columnNames.forEach(function (columnName, index) {
-                        var columnPrintSize = Math.max(columnPrintSizes[index], columnName.length);
-                        var th = document.createElement('th');
-                        th.textContent = columnName;
-                        th.style.width = columnPrintSize + 3 + 'ch'; // 增加固定长度
-                        headerRow.appendChild(th);
-                    });
-
-                    thead.appendChild(headerRow);
-                    table.appendChild(thead);
-
-                    // 创建表体
-                    var tbody = document.createElement('tbody');
-
-                    rows.forEach(function (row) {
-                        if(row === undefined || row === null) {
-                            //throw new Error("null row");
+                        if (results.errorCode !== 0) {
+                            // 更新 status 显示
+                            var statusSpan = statusDisplay.querySelector('span:first-of-type');
+                            statusSpan.textContent = 'FAILED';
+                            statusSpan.classList.remove('finished');
+                            statusSpan.classList.add('failed');
+                            resultDisplayContent.textContent = result.errorMessage;
+                            resultDisplay.appendChild(resultDisplayContent);
                             return;
                         }
-                        var tr = document.createElement('tr');
 
-                        columnNames.forEach(function (_, index) {
-                            var td = document.createElement('td');
-                            var value = row[index];
-                            if (value === undefined || value === null) {
-                                value = 'null';
-                            }
-                            td.textContent = value;
-                            tr.appendChild(td);
+                        var columnNames = results.columnNames;
+                        var rows = results.rows;
+                        var columnPrintSizes = results.columnPrintSizes;
+
+                        // 创建表格元素
+                        var table = document.createElement('table');
+                        table.className = 'result-table result-table-bordered';
+
+                        // 创建表头
+                        var thead = document.createElement('thead');
+                        var headerRow = document.createElement('tr');
+
+                        columnNames.forEach(function (columnName, index) {
+                            var columnPrintSize = Math.max(columnPrintSizes[index], columnName.length);
+                            var th = document.createElement('th');
+                            th.textContent = columnName;
+                            th.style.width = columnPrintSize + 3 + 'ch'; // 增加固定长度
+                            headerRow.appendChild(th);
                         });
 
-                        tbody.appendChild(tr);
-                    });
+                        thead.appendChild(headerRow);
+                        table.appendChild(thead);
 
-                    table.appendChild(tbody);
-                    resultDisplayContent.appendChild(table);
+                        // 创建表体
+                        var tbody = document.createElement('tbody');
 
-                    // 添加costCents信息
-                    var costDisplay = document.createElement('div');
-                    costDisplay.className = 'cost-display';
-                    costDisplay.innerHTML = `
-                        <span class="pending-ms">pending: ${results.pendingTimeMs} ms</span>
-                        <span class="execution-ms">execution: ${results.executionTimeMs} ms</span>
-                        <span class="cost-cents">cost: ${results.billedCents} cents</span>
-                    `;
-                    resultDisplayContent.appendChild(costDisplay);
+                        rows.forEach(function (row) {
+                            if (row === undefined || row === null) {
+                                //throw new Error("null row");
+                                return;
+                            }
+                            var tr = document.createElement('tr');
 
-                    resultDisplay.appendChild(resultDisplayContent);
+                            columnNames.forEach(function (_, index) {
+                                var td = document.createElement('td');
+                                var value = row[index];
+                                if (value === undefined || value === null) {
+                                    value = 'null';
+                                }
+                                td.textContent = value;
+                                tr.appendChild(td);
+                            });
 
-                    resultMessage.appendChild(resultDisplay);
+                            tbody.appendChild(tr);
+                        });
 
-                    //  将新的结果显示区域添加到聊天区域
-                    document.getElementById('status-area').appendChild(resultMessage);
+                        table.appendChild(tbody);
+                        resultDisplayContent.appendChild(table);
 
-                    let curSysMessageDiv = sysMessageDiv;
-                    let curResultMessage = resultMessage;
-                    // 实现message的click处理，高亮对应resultMessage
-                    curSysMessageDiv.addEventListener('dblclick', function () {
-                        // 移除.highlight类，然后再添加回来，以重新触发动画
-                        curResultMessage.classList.remove('highlighted');
-                        setTimeout(function() {
-                            curResultMessage.classList.add('highlighted');
-                        }, 0); // 使用setTimeout确保在下一个事件循环中添加类
-                    });
+                        // 添加costCents信息
+                        var costDisplay = document.createElement('div');
+                        costDisplay.className = 'cost-display';
+                        costDisplay.innerHTML = `
+                                    <span class="pending-ms">pending: ${results.pendingTimeMs} ms</span>
+                                    <span class="execution-ms">execution: ${results.executionTimeMs} ms</span>
+                                    <span class="cost-cents">cost: ${results.billedCents} cents</span>
+                                `;
+                        resultDisplayContent.appendChild(costDisplay);
 
-                    // 实现result的dblclcik处理，高亮对应systemMessage.message
-                    curResultMessage.addEventListener('dblclick', function (event) {
-                        // 移除.highlight类，然后再添加回来，以重新触发动画
-                        curSysMessageDiv.classList.remove('highlighted');
-                        setTimeout(function() {
-                            curSysMessageDiv.classList.add('highlighted');
-                        }, 0); // 使用setTimeout确保在下一个事件循环中添加类
-                    });
+                        resultDisplay.appendChild(resultDisplayContent);
 
-                    queryStatusScrollToBottom();
-                }
-                chatArea.appendChild(systemMessage);
-            }
+                        resultMessage.appendChild(resultDisplay);
+
+                        //  将新的结果显示区域添加到聊天区域
+                        document.getElementById('status-area').appendChild(resultMessage);
+
+                        let curSysMessageDiv = sysMessageDiv;
+                        let curResultMessage = resultMessage;
+                        // 实现message的click处理，高亮对应resultMessage
+                        curSysMessageDiv.addEventListener('dblclick', function () {
+                            // 移除.highlight类，然后再添加回来，以重新触发动画
+                            curResultMessage.classList.remove('highlighted');
+                            setTimeout(function () {
+                                curResultMessage.classList.add('highlighted');
+                            }, 0); // 使用setTimeout确保在下一个事件循环中添加类
+                        });
+
+                        // 实现result的dblclcik处理，高亮对应systemMessage.message
+                        curResultMessage.addEventListener('dblclick', function (event) {
+                            // 移除.highlight类，然后再添加回来，以重新触发动画
+                            curSysMessageDiv.classList.remove('highlighted');
+                            setTimeout(function () {
+                                curSysMessageDiv.classList.add('highlighted');
+                            }, 0); // 使用setTimeout确保在下一个事件循环中添加类
+                        });
+
+                        queryStatusScrollToBottom();
+                    }
+                    chatArea.appendChild(systemMessage);
+                })(message);
+            });
             chatAreaScrollToBottom();
         },
         error: function (error) {

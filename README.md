@@ -2,7 +2,8 @@
 The web UI of Pixels. 
 
 Watch the demonstration video:
-[![IMAGE](video/pixels-rover-720p-cover.png)](video/pixels-rover-720p.mp4)
+[![IMAGE](video/pixels-rover-720p-cover.png)](https://www.bilibili.com/video/BV1awDQYcEsN/?vd_source=da6f80d8fe2bab1291999a9535251c78)
+[Download the Video](video/pixels-rover-720p.mp4)
 
 ## Install Step-by-Step
 Login MySQL and create a user and create a pixels_rover database for Pixels:

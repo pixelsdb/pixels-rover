@@ -23,12 +23,10 @@ import io.pixelsdb.pixels.rover.model.Messages;
 import io.pixelsdb.pixels.rover.model.QueryResults;
 import io.pixelsdb.pixels.rover.model.SQLStatements;
 import jakarta.transaction.Transactional;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

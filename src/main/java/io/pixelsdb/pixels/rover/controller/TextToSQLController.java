@@ -49,7 +49,6 @@ public class TextToSQLController
         {
             // Use WebClient to call the other REST API
             return webClient.post()
-                    .uri("/get")
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(Mono.just(request), TextToSQLResponse.class)
                     .retrieve()

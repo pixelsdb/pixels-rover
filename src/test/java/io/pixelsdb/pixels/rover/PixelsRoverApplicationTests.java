@@ -20,13 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import io.pixelsdb.pixels.rover.model.SQLStatements;
-import io.pixelsdb.pixels.rover.model.Messages;
-import io.pixelsdb.pixels.rover.model.QueryResults;
-import io.pixelsdb.pixels.rover.mapper.SQLStatementsRepository;
-import io.pixelsdb.pixels.rover.mapper.MessageRepository;
-import io.pixelsdb.pixels.rover.mapper.QueryResultsRepository;
-
 @SpringBootTest
 class PixelsRoverApplicationTests
 {

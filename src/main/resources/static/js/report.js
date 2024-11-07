@@ -385,154 +385,162 @@ async function displayQueryInfo(data) {
     var queryInfoDiv = document.getElementById('query-info');
     queryInfoDiv.innerHTML = ''; // 清空旧内容
     if (data && data.length != 0) {
-        for (const query of data) {
-            var resultMessage = document.createElement('div');
-            resultMessage.className = 'result-message';
-            switch (query.result.executionHint.toLowerCase()) {
-                case 'best_of_effort':
-                    resultMessage.style.backgroundColor = '#f3f9e8';
-                    break;
-                case 'relaxed':
-                    resultMessage.style.backgroundColor = '#f9f0e8';
-                    break;
-                case 'immediate':
-                    resultMessage.style.backgroundColor = '#f9e8e8';
-                    break;
-                default:
-                    resultMessage.style.backgroundColor = '#e6f7ff'; // 默认颜色
-            }
-            //  创建状态显示区域
-            var statusDisplay = document.createElement('div');
-            statusDisplay.className = 'bold-font no-select';
-            statusDisplay.innerHTML = `Query Uuid: <span class='result-uuid'>${query.resultUuid}</span>`;
-            resultMessage.appendChild(statusDisplay);
-
-            // 添加折叠按钮
-            var toggleResults = document.createElement('span');
-            toggleResults.className = 'toggle-results';
-            toggleResults.addEventListener('click', function () {
-                if (resultDisplay.style.display === 'none') {
-                    resultDisplay.style.display = 'block';
-                    toggleResults.classList.add('expanded');
-                } else {
-                    resultDisplay.style.display = 'none';
-                    toggleResults.classList.remove('expanded');
+        data.forEach(query => {
+            (function (query) {
+                var resultMessage = document.createElement('div');
+                resultMessage.className = 'result-message';
+                resultMessage.id = query.resultUuid;
+                switch (query.result.executionHint.toLowerCase()) {
+                    case 'best_of_effort':
+                        resultMessage.style.backgroundColor = '#f3f9e8';
+                        break;
+                    case 'relaxed':
+                        resultMessage.style.backgroundColor = '#f9f0e8';
+                        break;
+                    case 'immediate':
+                        resultMessage.style.backgroundColor = '#f9e8e8';
+                        break;
+                    default:
+                        resultMessage.style.backgroundColor = '#e6f7ff'; // 默认颜色
                 }
-            });
-            statusDisplay.appendChild(toggleResults);
 
-            //  创建结果显示区域
-            var resultDisplay = document.createElement('div');
-            resultDisplay.className = 'query-results';
-            resultDisplay.style.display = 'none'; //  默认隐藏结果
+                //  创建状态显示区域
+                var statusDisplay = document.createElement('div');
+                statusDisplay.className = 'bold-font no-select';
+                statusDisplay.innerHTML = `Query Uuid: <span class='result-uuid'>${query.resultUuid}</span>`;
+                resultMessage.appendChild(statusDisplay);
 
-            var querySQL = null;
-            try {
-                querySQL = await $.ajax({
-                    type: 'POST',
-                    contentType: 'application/json',
-                    url: '/api/chat/get-sql',
-                    data: JSON.stringify({"uuid": query.sqlStatementsUuid}),
-                });
-            } catch (error) {
-                console.log("Error fetching querySQL ", error);
-            }
-
-            var hightlightedSQL = hljs.highlight(querySQL, {language: "sql", ignoreIllegals: true}).value;
-            var resultDisplayContent = document.createElement('div');
-            var queryDisplay = document.createElement('div');
-            queryDisplay.className = 'query-display';
-            queryDisplay.innerHTML = 'Query: ' + hightlightedSQL;
-            resultDisplayContent.appendChild(queryDisplay);
-
-            // 添加 executionHint 信息
-            var executionHintDisplay = document.createElement('div');
-            executionHintDisplay.className = 'execution-hint-display';
-            switch (query.result.executionHint.toLowerCase()) {
-                case 'best_of_effort':
-                    executionHintDisplay.textContent = 'ExecutionHint: Best-of-effort';
-                    break;
-                case 'relaxed':
-                    executionHintDisplay.textContent = 'ExecutionHint: Relaxed';
-                    break;
-                case 'immediate':
-                    executionHintDisplay.textContent = 'ExecutionHint: Immediate';
-                    break;
-                default:
-                    executionHintDisplay.textContent = 'ExecutionHint: Unknown';
-            }
-            resultDisplayContent.appendChild(executionHintDisplay);
-
-            // 添加 limitRow 信息
-            var limitRowsDisplay = document.createElement('div')
-            limitRowsDisplay.className = 'limit-rows-display';
-            limitRowsDisplay.textContent = 'LimitRows: ' + query.resultLimit;
-            resultDisplayContent.appendChild(limitRowsDisplay);
-
-            var columnNames = query.result.columnNames;
-            var rows = query.result.rows;
-            var columnPrintSizes = query.result.columnPrintSizes;
-
-            // 创建表格元素
-            var table = document.createElement('table');
-            table.className = 'result-table result-table-bordered';
-
-            // 创建表头
-            var thead = document.createElement('thead');
-            var headerRow = document.createElement('tr');
-
-            columnNames.forEach(function (columnName, index) {
-                var columnPrintSize = Math.max(columnPrintSizes[index], columnName.length);
-                var th = document.createElement('th');
-                th.textContent = columnName;
-                th.style.width = columnPrintSize + 3 + 'ch'; // 增加固定长度
-                headerRow.appendChild(th);
-            });
-
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            // 创建表体
-            var tbody = document.createElement('tbody');
-
-            rows.forEach(function (row) {
-                if (row === undefined || row === null) {
-                    //throw new Error("null row");
-                    return;
-                }
-                var tr = document.createElement('tr');
-
-                columnNames.forEach(function (_, index) {
-                    var td = document.createElement('td');
-                    var value = row[index];
-                    if (value === undefined || value === null) {
-                        value = 'null';
+                // 添加折叠按钮
+                var toggleResults = document.createElement('span');
+                toggleResults.className = 'toggle-results';
+                toggleResults.addEventListener('click', function () {
+                    if (resultDisplay.style.display === 'none') {
+                        resultDisplay.style.display = 'block';
+                        toggleResults.classList.add('expanded');
+                    } else {
+                        resultDisplay.style.display = 'none';
+                        toggleResults.classList.remove('expanded');
                     }
-                    td.textContent = value;
-                    tr.appendChild(td);
+                });
+                statusDisplay.appendChild(toggleResults);
+
+                //  创建结果显示区域
+                var resultDisplay = document.createElement('div');
+                resultDisplay.className = 'query-results';
+                resultDisplay.style.display = 'none'; //  默认隐藏结果
+
+                var resultDisplayContent = document.createElement('div');
+                fetchSQL(query.sqlStatementsUuid).then(hightlightedSQL => {
+                    var queryDisplay = document.createElement('div');
+                    queryDisplay.className = 'query-display';
+                    queryDisplay.innerHTML = 'Query: ' + hightlightedSQL;
+                    resultDisplayContent.appendChild(queryDisplay);
                 });
 
-                tbody.appendChild(tr);
-            });
+                // 添加 executionHint 信息
+                var executionHintDisplay = document.createElement('div');
+                executionHintDisplay.className = 'execution-hint-display';
+                switch (query.result.executionHint.toLowerCase()) {
+                    case 'best_of_effort':
+                        executionHintDisplay.textContent = 'ExecutionHint: Best-of-effort';
+                        break;
+                    case 'relaxed':
+                        executionHintDisplay.textContent = 'ExecutionHint: Relaxed';
+                        break;
+                    case 'immediate':
+                        executionHintDisplay.textContent = 'ExecutionHint: Immediate';
+                        break;
+                    default:
+                        executionHintDisplay.textContent = 'ExecutionHint: Unknown';
+                }
+                resultDisplayContent.appendChild(executionHintDisplay);
 
-            table.appendChild(tbody);
-            resultDisplayContent.appendChild(table);
+                // 添加 limitRow 信息
+                var limitRowsDisplay = document.createElement('div')
+                limitRowsDisplay.className = 'limit-rows-display';
+                limitRowsDisplay.textContent = 'LimitRows: ' + query.resultLimit;
+                resultDisplayContent.appendChild(limitRowsDisplay);
 
-            // 添加costCents信息
-            var costDisplay = document.createElement('div');
-            costDisplay.className = 'cost-display';
-            costDisplay.innerHTML = `
+                var columnNames = query.result.columnNames;
+                var rows = query.result.rows;
+                var columnPrintSizes = query.result.columnPrintSizes;
+
+                // 创建表格元素
+                var table = document.createElement('table');
+                table.className = 'result-table result-table-bordered';
+
+                // 创建表头
+                var thead = document.createElement('thead');
+                var headerRow = document.createElement('tr');
+
+                columnNames.forEach(function (columnName, index) {
+                    var columnPrintSize = Math.max(columnPrintSizes[index], columnName.length);
+                    var th = document.createElement('th');
+                    th.textContent = columnName;
+                    th.style.width = columnPrintSize + 3 + 'ch'; // 增加固定长度
+                    headerRow.appendChild(th);
+                });
+
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                // 创建表体
+                var tbody = document.createElement('tbody');
+
+                rows.forEach(function (row) {
+                    if (row === undefined || row === null) {
+                        //throw new Error("null row");
+                        return;
+                    }
+                    var tr = document.createElement('tr');
+
+                    columnNames.forEach(function (_, index) {
+                        var td = document.createElement('td');
+                        var value = row[index];
+                        if (value === undefined || value === null) {
+                            value = 'null';
+                        }
+                        td.textContent = value;
+                        tr.appendChild(td);
+                    });
+
+                    tbody.appendChild(tr);
+                });
+
+                table.appendChild(tbody);
+                resultDisplayContent.appendChild(table);
+
+                // 添加costCents信息
+                var costDisplay = document.createElement('div');
+                costDisplay.className = 'cost-display';
+                costDisplay.innerHTML = `
                         <span class="pending-ms">pending: ${query.result.pendingTimeMs} ms</span>
                         <span class="execution-ms">execution: ${query.result.executionTimeMs} ms</span>
                         <span class="cost-cents">cost: ${query.result.billedCents} cents</span>
                     `;
-            resultDisplayContent.appendChild(costDisplay);
+                resultDisplayContent.appendChild(costDisplay);
 
-            resultDisplay.appendChild(resultDisplayContent);
+                resultDisplay.appendChild(resultDisplayContent);
 
-            resultMessage.appendChild(resultDisplay);
+                resultMessage.appendChild(resultDisplay);
 
-            queryInfoDiv.appendChild(resultMessage);
-        }
+                queryInfoDiv.appendChild(resultMessage);
+            })(query);
+        });
+    }
+}
+
+async function fetchSQL(sqlStatementsUuid) {
+    try {
+        const querySQL = await $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '/api/chat/get-sql',
+            data: JSON.stringify({ "uuid": sqlStatementsUuid }),
+        });
+        return hljs.highlight(querySQL, { language: "sql", ignoreIllegals: true }).value;
+    } catch (error) {
+        console.log("Error fetching querySQL ", error);
+        return "Error loading SQL";
     }
 }
